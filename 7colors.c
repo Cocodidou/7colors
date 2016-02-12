@@ -31,15 +31,30 @@ void print_board(char* board)
    int i, j;
    for (i=0; i<BOARD_SIZE; i++) {
       for (j=0; j<BOARD_SIZE; j++) 
-	 printf("%c", get_cell(board, i, j));
+	 printf("%c ", get_cell(board, i, j));
       printf("\n");
    }
+}
+
+void fill_board(char* board)
+{
+  int i,j;
+  for(i = 0; i < BOARD_SIZE; i++) {
+    for(j = 0; j < BOARD_SIZE; j++) {
+      board[BOARD_SIZE * i + j] = (char)(rand() % 0x07) + 65;
+    }
+  }
+  board[BOARD_SIZE -1] = 'v';
+  board[(BOARD_SIZE - 1) * BOARD_SIZE] = '^';
+  
 }
 
 
 /** Program entry point */
 int main() 
 {
+  //RNG init
+  srand(time(0));
    char board[BOARD_SIZE * BOARD_SIZE];
 //    = { 'A' };
    
@@ -47,7 +62,7 @@ int main()
    printf("\n\n  Welcome to the 7 wonders of the world of the 7 colors\n"
 	      "  *****************************************************\n\n"
 	 "Current board state:\n");
-   
+   fill_board(board);
    print_board(&(board[0]));
    
    return 0; // Everything went well
