@@ -1,12 +1,5 @@
-/* Template of the 7 wonders of the world of the 7 colors assigment. */
+#include "7colors.h"
 
-/* Cf. http://people.irisa.fr/Anne-Cecile.Orgerie/teaching2015.html  */
-
-#include <stdio.h>  /* printf */
-
-
-/* We want a 30x30 board game by default */
-#define BOARD_SIZE 30 
 
 /** Represent the actual current board game 
  * 
@@ -14,16 +7,16 @@
  *  an appropriate data structure would also be preferred), but don't worry. 
  *  For this first assignment, no dinosaure will get you if you do that. 
  */
-char board[BOARD_SIZE * BOARD_SIZE] = { 0 }; // Filled with zeros
+// char board[BOARD_SIZE * BOARD_SIZE] = { 0 }; // Filled with zeros
 
 /** Retrieves the color of a given board cell */
-char get_cell(int x, int y) 
+char get_cell(char* board, int x, int y) 
 {
    return board[y*BOARD_SIZE + x];
 }
 
 /** Changes the color of a given board cell */
-void set_cell(int x, int y, char color) 
+void set_cell(char* board, int x, int y, char color) 
 {
    board[y*BOARD_SIZE + x] = color;
 }
@@ -33,12 +26,12 @@ void set_cell(int x, int y, char color)
  * Implementation note: It would be nicer to do this with ncurse or even 
  * SDL/allegro, but this is not really the purpose of this assignment.
  */
-void print_board() 
+void print_board(char* board) 
 {
    int i, j;
    for (i=0; i<BOARD_SIZE; i++) {
       for (j=0; j<BOARD_SIZE; j++) 
-	 printf("%c", get_cell(i, j));
+	 printf("%c", get_cell(board, i, j));
       printf("\n");
    }
 }
@@ -47,11 +40,15 @@ void print_board()
 /** Program entry point */
 int main() 
 {
+   char board[BOARD_SIZE * BOARD_SIZE];
+//    = { 'A' };
+   
+   
    printf("\n\n  Welcome to the 7 wonders of the world of the 7 colors\n"
 	      "  *****************************************************\n\n"
 	 "Current board state:\n");
    
-   print_board();
+   print_board(&(board[0]));
    
    return 0; // Everything went well
 }
