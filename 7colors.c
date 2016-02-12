@@ -61,13 +61,13 @@ bool is_adjacent(char* board, int i, int j, char player) {
    return false;
 }
 
-void update_board(char* board, char player) {
+void update_board(char* board, char player, char color) {
    bool hasChanged = true;
    while(hasChanged) {
       int i, j;
       for(i = 0; i < BOARD_SIZE; i++) {
 	 for(j = 0; j < BOARD_SIZE; j++) {
-	    if (is_adjacent(board, i, j, player))
+	    if (get_cell(board, i, j) == color && is_adjacent(board, i, j, player))
 	       board[BOARD_SIZE * j + i] = player;
 	 }
       }
