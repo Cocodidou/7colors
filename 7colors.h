@@ -4,10 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 /* We want a 30x30 board game by default */
-#define BOARD_SIZE 30 
+#define BOARD_SIZE 30
 
 
 typedef char color;
