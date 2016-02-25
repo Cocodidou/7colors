@@ -49,8 +49,8 @@ void fill_board(char* board)
 }
 
 bool is_adjacent(char* board, int i, int j, char player) {
-   if(!i && get_cell(board, i - 1, j) == player) return true;
-   if(!j && get_cell(board, i, j - 1) == player) return true;
+   if(i && get_cell(board, i - 1, j) == player) return true;
+   if(j && get_cell(board, i, j - 1) == player) return true;
    if(i != BOARD_SIZE - 1 && get_cell(board, i + 1, j) == player) return true;
    if(j != BOARD_SIZE - 1 && get_cell(board, i, j + 1) == player) return true;
    return false;
@@ -68,11 +68,10 @@ int update_board(char* board, char player, char color) {
                set_cell(board, i, j, player);
                hasChanged = true;
                nb_cell_acquired++;
-           }
-        }
-     }
-  }
+            }
+         }
+      }
+   }
    return nb_cell_acquired;
 }
-
 
