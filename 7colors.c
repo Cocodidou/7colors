@@ -31,7 +31,7 @@ void print_board(char* board)
    int i, j;
    for (i=0; i<BOARD_SIZE; i++) {
       for (j=0; j<BOARD_SIZE; j++)
-	 printf("%c ", get_cell(board, i, j));
+         printf("%c ", get_cell(board, i, j));
       printf("\n");
    }
 }
@@ -41,37 +41,38 @@ void fill_board(char* board)
   int i,j;
   for(i = 0; i < BOARD_SIZE; i++) {
     for(j = 0; j < BOARD_SIZE; j++) {
-      board[BOARD_SIZE * i + j] = (char)(rand() % 0x07) + 65;
+      set_cell(board, i, j, (char)(rand() % 0x07) + 65);
     }
   }
-  board[BOARD_SIZE -1] = 'v';
-  board[(BOARD_SIZE - 1) * BOARD_SIZE] = '^';
-
+  set_cell(board, BOARD_SIZE - 1, 0, 'v');
+  set_cell(board, 0, BOARD_SIZE - 1, '^');
 }
 
 bool is_adjacent(char* board, int i, int j, char player) {
-   if(!i)
-      return board[BOARD_SIZE * j + i - 1] == player;
-   if (!j)
-      return board[BOARD_SIZE * (j-1) + i] == player;
-   if (i != BOARD_SIZE - 1)
-      return board[BOARD_SIZE * j + i + 1] == player;
-   if (j != BOARD_SIZE - 1)
-      return board[BOARD_SIZE * (j-1) + i] == player;
+   if(!i && get_cell(board, i - 1, j) == player) return true;
+   if(!j && get_cell(board, i, j - 1) == player) return true;
+   if(i != BOARD_SIZE - 1 && get_cell(board, i + 1, j) == player) return true;
+   if(j != BOARD_SIZE - 1 && get_cell(board, i, j + 1) == player) return true;
    return false;
 }
 
-void update_board(char* board, char player, char color) {
+int update_board(char* board, char player, char color) {
    bool hasChanged = true;
+   int nb_cell_acquired = 0;
    while(hasChanged) {
+      hasChanged = false;
       int i, j;
       for(i = 0; i < BOARD_SIZE; i++) {
-	 for(j = 0; j < BOARD_SIZE; j++) {
-	    if (get_cell(board, i, j) == color && is_adjacent(board, i, j, player))
-	       board[BOARD_SIZE * j + i] = player;
-	 }
-      }
-   }
+         for(j = 0; j < BOARD_SIZE; j++) {
+            if (get_cell(board, i, j) == color && is_adjacent(board, i, j, player)){
+               set_cell(board, i, j, player);
+               hasChanged = true;
+               nb_cell_acquired++;
+           }
+        }
+     }
+  }
+   return nb_cell_acquired;
 }
 
 

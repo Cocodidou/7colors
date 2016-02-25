@@ -1,5 +1,6 @@
 #include "7colors.h"
 #include <stdio.h>
+#include "game.h"
 
 /** Program entry point */
 int main()
@@ -15,6 +16,8 @@ int main()
 	 "Current board state:\n");
    fill_board(board);
    print_board(&(board[0]));
+
+   game(&board[0]);
 
    return 0; // Everything went well
 }
