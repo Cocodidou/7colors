@@ -15,18 +15,20 @@ void game(char* board)
         printf("It's player %d's turn. Which color will they choose ? ", curPlayer);
         char nextColor = getchar();
         getchar();
-        printf("Oki %c\n", nextColor);
         if(nextColor >= 'A' && nextColor <= 'G') {
             // good choice !
             nb_cells[(int) curPlayer] += update_board(board, (curPlayer)?'^':'v', nextColor);
             print_board(board);
             curPlayer = (curPlayer + 1) % 2;
 
-            // TODO determine whether the game IS finished
             if(is_game_finished(nb_cells)) {
-              printf("Player %d won.", curPlayer);
+              printf("Player %d won with an occupation rate of %.2fp.c.", curPlayer,
+                  (double) 100.0 * nb_cells[(int) curPlayer] / (BOARD_SIZE * BOARD_SIZE));
               break;
             }
+            printf("| P0: %.2fp.c. | P1: %.2fp.c. |\n",
+                  (double) 100.0 * nb_cells[0] / (BOARD_SIZE * BOARD_SIZE),
+                  (double) 100.0 * nb_cells[1] / (BOARD_SIZE * BOARD_SIZE));
         }
         else continue;
     }
