@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "7colors.h"
+#include "ai.h"
 
 bool is_game_finished(int*);
 void game();

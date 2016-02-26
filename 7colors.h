@@ -16,6 +16,7 @@ char get_cell(char* board, int x, int y);
 void set_cell(char* board, int x, int y, char color);
 void print_board(char* board);
 void fill_board(char* board);
+bool is_adjacent(char* board, int i, int j, char player);
 int update_board(char* board, char player, char color);
 
 
