@@ -33,6 +33,22 @@ char biggest_move(char* board, char player) {
       best_move = i + 65;
     }
   }
+  free(board_copy);
   return best_move;
 }
 
+// char minimax(char *board, char player, char curPlayer, int depth) {
+//   if(!depth || is_game_finished(board))
+//     return biggest_move(board, player);
+//   int best_score = 0;
+//   char best_move = 'A';
+//   int i;
+//   for(i = 0; i < 8; i++) {
+//     int current_score = 0;
+//     char* board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
+//     current_score += update_board(board_copy, curPlayer, i + 65);
+//     current_score += minimax(board_copy, player, (curPlayer+1) % 2, depth - 1);
+//
+//     free(board_copy);
+//   }
+// }
