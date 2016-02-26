@@ -12,13 +12,13 @@
 /** Retrieves the color of a given board cell */
 char get_cell(char* board, int x, int y)
 {
-   return board[y*BOARD_SIZE + x];
+  return board[y*BOARD_SIZE + x];
 }
 
 /** Changes the color of a given board cell */
 void set_cell(char* board, int x, int y, char color)
 {
-   board[y*BOARD_SIZE + x] = color;
+  board[y*BOARD_SIZE + x] = color;
 }
 
 /** Prints the current state of the board on screen
@@ -28,12 +28,12 @@ void set_cell(char* board, int x, int y, char color)
  */
 void print_board(char* board)
 {
-   int i, j;
-   for (i=0; i<BOARD_SIZE; i++) {
-      for (j=0; j<BOARD_SIZE; j++)
-         printf("%c ", get_cell(board, i, j));
-      printf("\n");
-   }
+  int i, j;
+  for (i=0; i<BOARD_SIZE; i++) {
+    for (j=0; j<BOARD_SIZE; j++)
+      printf("%c ", get_cell(board, i, j));
+    printf("\n");
+  }
 }
 
 void fill_board(char* board)
@@ -49,29 +49,29 @@ void fill_board(char* board)
 }
 
 bool is_adjacent(char* board, int i, int j, char player) {
-   if(i && get_cell(board, i - 1, j) == player) return true;
-   if(j && get_cell(board, i, j - 1) == player) return true;
-   if(i != BOARD_SIZE - 1 && get_cell(board, i + 1, j) == player) return true;
-   if(j != BOARD_SIZE - 1 && get_cell(board, i, j + 1) == player) return true;
-   return false;
+  if(i && get_cell(board, i - 1, j) == player) return true;
+  if(j && get_cell(board, i, j - 1) == player) return true;
+  if(i != BOARD_SIZE - 1 && get_cell(board, i + 1, j) == player) return true;
+  if(j != BOARD_SIZE - 1 && get_cell(board, i, j + 1) == player) return true;
+  return false;
 }
 
 int update_board(char* board, char player, char color) {
-   bool hasChanged = true;
-   int nb_cell_acquired = 0;
-   while(hasChanged) {
-      hasChanged = false;
-      int i, j;
-      for(i = 0; i < BOARD_SIZE; i++) {
-         for(j = 0; j < BOARD_SIZE; j++) {
-            if (get_cell(board, i, j) == color && is_adjacent(board, i, j, player)){
-               set_cell(board, i, j, player);
-               hasChanged = true;
-               nb_cell_acquired++;
-            }
-         }
+  bool hasChanged = true;
+  int nb_cell_acquired = 0;
+  while(hasChanged) {
+    hasChanged = false;
+    int i, j;
+    for(i = 0; i < BOARD_SIZE; i++) {
+      for(j = 0; j < BOARD_SIZE; j++) {
+        if (get_cell(board, i, j) == color && is_adjacent(board, i, j, player)){
+          set_cell(board, i, j, player);
+          hasChanged = true;
+          nb_cell_acquired++;
+        }
       }
-   }
-   return nb_cell_acquired;
+    }
+  }
+  return nb_cell_acquired;
 }
 
