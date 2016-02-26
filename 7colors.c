@@ -44,8 +44,8 @@ void fill_board(char* board)
       set_cell(board, i, j, (char)(rand() % 0x07) + 65);
     }
   }
-  set_cell(board, BOARD_SIZE - 1, 0, 'v');
-  set_cell(board, 0, BOARD_SIZE - 1, '^');
+  set_cell(board, BOARD_SIZE - 1, 0, SYMBOL_0);
+  set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
 }
 
 bool is_adjacent(char* board, int i, int j, char player) {

@@ -13,7 +13,7 @@ void game(char* board)
   int nb_cells[2] = {1, 1};
   char type_game = '9';
   while(type_game > '3' || type_game < '1') {
-    printf("1: 2 human players | 2: against random AI -> ");
+    printf("1: 2 human players | 2: against random AI | 3: AI against AI -> ");
     type_game = getchar();
     getchar();
   }
@@ -21,20 +21,25 @@ void game(char* board)
   while(!isFinished)
   {
     char nextColor;
-    if(type_game == '1' || curPlayer == 0) {
+    if(type_game == '3' && curPlayer == 0) {
+      nextColor = rand_valid_play(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+      printf("AI %d played %c\n", curPlayer, nextColor);
+      usleep(750000);
+    }
+    else if(type_game == '1' || curPlayer == 0) {
       printf("It's player %d's turn. Which color will they choose ? ",
           curPlayer);
       nextColor = getchar();
       getchar();
     }
     else {
-      nextColor = rand_valid_play(board, (curPlayer)?'^':'v');
+      nextColor = biggest_move(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
       printf("AI played %c\n", nextColor);
     }
     if(nextColor >= 'A' && nextColor <= 'G') {
       // good choice !
-      nb_cells[(int) curPlayer] += update_board(board, (curPlayer)?'^':'v',
-          nextColor);
+      nb_cells[(int) curPlayer] += update_board(board,
+          (curPlayer)?SYMBOL_1:SYMBOL_0, nextColor);
       print_board(board);
 
       if(is_game_finished(nb_cells)) {

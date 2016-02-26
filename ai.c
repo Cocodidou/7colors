@@ -18,3 +18,21 @@ char rand_valid_play(char *board, char player) {
     move = (rand() % 7) + 65;
   return move;
 }
+
+
+char biggest_move(char* board, char player) {
+  int score_best_move = 0;
+  char best_move = 'A';
+  char* board_copy = malloc(BOARD_SIZE * BOARD_SIZE * sizeof(char));
+  int i;
+  for(i = 0; i < 8; i++) {
+    memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
+    int score_move = update_board(board_copy, player, i + 65);
+    if(score_move > score_best_move) {
+      score_best_move = score_move;
+      best_move = i + 65;
+    }
+  }
+  return best_move;
+}
+

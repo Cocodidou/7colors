@@ -9,6 +9,8 @@
 
 /* We want a 30x30 board game by default */
 #define BOARD_SIZE 30
+#define SYMBOL_0 '.'
+#define SYMBOL_1 '`'
 
 
 typedef char color;
