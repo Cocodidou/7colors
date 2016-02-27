@@ -37,18 +37,55 @@ char biggest_move(char* board, char player) {
   return best_move;
 }
 
-// char minimax(char *board, char player, char curPlayer, int depth) {
-//   if(!depth || is_game_finished(board))
-//     return biggest_move(board, player);
-//   int best_score = 0;
-//   char best_move = 'A';
-//   int i;
-//   for(i = 0; i < 8; i++) {
-//     int current_score = 0;
-//     char* board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
-//     current_score += update_board(board_copy, curPlayer, i + 65);
-//     current_score += minimax(board_copy, player, (curPlayer+1) % 2, depth - 1);
-//
-//     free(board_copy);
-//   }
-// }
+int compute_score(char *board, char player) {
+  int res = 0;
+  int i, j;
+  for(i = 0; i < BOARD_SIZE; i++)
+  for(j = 0; j < BOARD_SIZE; j++)
+    if(get_cell(board, i, j) == player)
+      res++;
+  return res;
+}
+
+typedef struct {
+  int score;
+  char move;
+} res_minimax;
+
+res_minimax minimax_through(char *board, char player, char curPlayer,
+    int depth) {
+  res_minimax res;
+  res.score = (player == curPlayer)?INT_MIN:INT_MAX;
+  res.move = 'A';
+  if(!depth){
+    res.move = biggest_move(board, player);
+    return res;
+  }
+
+  int i;
+  for(i = 0; i < 8; i++) {
+    int current_score = compute_score(board, curPlayer);
+    char* board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
+    memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
+    current_score += update_board(board_copy, curPlayer, i + 65);
+    res_minimax child;
+    child = minimax_through(board_copy, player, (curPlayer+1) % 2, depth - 1);
+    current_score += child.score;
+
+    free(board_copy);
+    if(current_score > BOARD_SIZE * BOARD_SIZE / 2) {  // Game is won
+      res.score = (player == curPlayer)?INT_MIN:INT_MAX;
+      return res;
+    }
+    if((current_score > res.score && player == curPlayer) ||
+        (current_score < res.score && player != curPlayer)) {
+      res.score = current_score;
+      res.move = i + 65;
+    }
+  }
+  return res;
+}
+
+char minimax(char *board, char player) {
+  return minimax_through(board, player, player, 5).move;
+}

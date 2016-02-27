@@ -12,8 +12,9 @@ void game(char* board)
   bool isFinished = false;
   int nb_cells[2] = {1, 1};
   char type_game = '9';
-  while(type_game > '3' || type_game < '1') {
-    printf("1: 2 human players | 2: against random AI | 3: AI against AI -> ");
+  while(type_game > '4' || type_game < '1') {
+    printf("1: 2 human players | 2: against random AI | 3: AI against AI |\n"
+           "4: against MinMax -> ");
     type_game = getchar();
     getchar();
   }
@@ -33,7 +34,10 @@ void game(char* board)
       getchar();
     }
     else {
-      nextColor = biggest_move(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+      if (type_game == '4')
+        nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+      else
+        nextColor = biggest_move(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
       printf("AI played %c\n", nextColor);
     }
     if(nextColor >= 'A' && nextColor <= 'G') {
