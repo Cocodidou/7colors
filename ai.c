@@ -87,5 +87,5 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
 }
 
 char minimax(char *board, char player) {
-  return minimax_through(board, player, player, 5).move;
+  return minimax_through(board, player, player, 8).move;
 }
