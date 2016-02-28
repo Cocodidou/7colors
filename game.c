@@ -35,6 +35,11 @@ void game(char* board)
       printf("It's player %d's turn. Which color will they choose ? \033[K",
           curPlayer);
       nextColor = getchar();
+      while(nextColor == '\n') {  // Player has hit enter instead of a color
+        printf("\033[FIt's player %d's turn. Which color will they choose ? "
+            "\033[K", curPlayer);
+        nextColor = getchar();
+      }
       getchar();
       while(nextColor > 'G' || nextColor < 'A') {
         printf("\033[F\033[K");  // clear previous line
