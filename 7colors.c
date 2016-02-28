@@ -30,8 +30,29 @@ void print_board(char* board)
 {
   int i, j;
   for (i=0; i<BOARD_SIZE; i++) {
-    for (j=0; j<BOARD_SIZE; j++)
+    for (j=0; j<BOARD_SIZE; j++) {
+      switch(get_cell(board, i, j)) {
+        case 'A': printf("\033[41;30m");
+                  break;
+        case 'B': printf("\033[42;30m");
+                  break;
+        case 'C': printf("\033[43;30m");
+                  break;
+        case 'D': printf("\033[44;30m");
+                  break;
+        case 'E': printf("\033[45;30m");
+                  break;
+        case 'F': printf("\033[46;30m");
+                  break;
+        case 'G': printf("\033[47;30m");
+                  break;
+        case '.': printf("\033[40;31m");
+                  break;
+        case '`': printf("\033[40;34m");
+      }
       printf("%c ", get_cell(board, i, j));
+      printf("\033[0m");
+    }
     printf("\n");
   }
 }

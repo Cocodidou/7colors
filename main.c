@@ -15,7 +15,6 @@ int main()
       "  *****************************************************\n\n"
       "Current board state:\n");
   fill_board(board);
-  print_board(&(board[0]));
 
   game(&board[0]);
 

@@ -18,6 +18,9 @@ void game(char* board)
     type_game = getchar();
     getchar();
   }
+  printf("\n");
+  print_board(board);
+  printf("\n");
 
   while(!isFinished)
   {
@@ -32,6 +35,12 @@ void game(char* board)
           curPlayer);
       nextColor = getchar();
       getchar();
+      while(nextColor > 'G' || nextColor < 'A') {
+        printf("It's player %d's turn. Which color will they choose ? ",
+            curPlayer);
+        nextColor = getchar();
+        getchar();
+      }
     }
     else {
       if (type_game == '4')
@@ -53,7 +62,7 @@ void game(char* board)
         break;
       }
       curPlayer = (curPlayer + 1) % 2;
-      printf("| P0: %.2fp.c. | P1: %.2fp.c. |\n",
+      printf("| P0: %.2fp.c. | P1: %.2fp.c. |\n\n",
           (double) 100.0 * nb_cells[0] / (BOARD_SIZE * BOARD_SIZE),
           (double) 100.0 * nb_cells[1] / (BOARD_SIZE * BOARD_SIZE));
     }
