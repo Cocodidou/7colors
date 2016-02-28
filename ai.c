@@ -72,8 +72,8 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
     int move = update_board(board_copy, curPlayer, i + 65);
     if(move == 0)  // this move doesn't change anyth
       continue;
-    res_minimax child = minimax_through(board_copy, player, (curPlayer+1) % 2,
-        depth - 1);
+    res_minimax child = minimax_through(board_copy, player,
+        (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1);
     if((player == curPlayer && child.score > res.score) ||
         (player != curPlayer && child.score < res.score)) {
       res.score = child.score;
@@ -85,5 +85,5 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
 }
 
 char minimax(char *board, char player) {
-  return minimax_through(board, player, player, 3).move;
+  return minimax_through(board, player, player, 5).move;
 }
