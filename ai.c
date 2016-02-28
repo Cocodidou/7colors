@@ -56,36 +56,34 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
     int depth) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  res.move = 'A';
+  // res.move = '\0';
   if(!depth){
-    res.move = biggest_move(board, player);
+    res.score = compute_score(board, player);
     return res;
   }
+  if(compute_score(board, curPlayer?SYMBOL_0:SYMBOL_1) >= BOARD_SIZE *
+      BOARD_SIZE / 2)  //game is won
+    return res;
 
+  char *board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
   int i;
   for(i = 0; i < 8; i++) {
-    int current_score = compute_score(board, curPlayer);
-    char* board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
     memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
-    current_score += update_board(board_copy, curPlayer, i + 65);
-    res_minimax child;
-    child = minimax_through(board_copy, player, (curPlayer+1) % 2, depth - 1);
-    current_score += child.score;
-
-    free(board_copy);
-    if(current_score > BOARD_SIZE * BOARD_SIZE / 2) {  // Game is won
-      res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-      return res;
-    }
-    if((current_score > res.score && player == curPlayer) ||
-        (current_score < res.score && player != curPlayer)) {
-      res.score = current_score;
+    int move = update_board(board_copy, curPlayer, i + 65);
+    if(move == 0)  // this move doesn't change anyth
+      continue;
+    res_minimax child = minimax_through(board_copy, player, (curPlayer+1) % 2,
+        depth - 1);
+    if((player == curPlayer && child.score > res.score) ||
+        (player != curPlayer && child.score < res.score)) {
+      res.score = child.score;
       res.move = i + 65;
     }
   }
+  free(board_copy);
   return res;
 }
 
 char minimax(char *board, char player) {
-  return minimax_through(board, player, player, 8).move;
+  return minimax_through(board, player, player, 3).move;
 }
