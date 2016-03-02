@@ -56,7 +56,7 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
     int depth) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  res.move = 'A';
+  // res.move = 'A';
   if(!depth){
     res.score = compute_score(board, player);
     return res;
@@ -76,6 +76,7 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
         (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1);
     if((player == curPlayer && child.score > res.score) ||
         (player != curPlayer && child.score < res.score)) {
+      // Need the score equal to have a somewhat valid move
       res.score = child.score;
       res.move = i + 65;
     }
@@ -96,7 +97,7 @@ res_minimax alphabeta_through(char *board, char player, char curPlayer,
     int depth, int lower_bound, int upper_bound) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  res.move = 'A';
+  // res.move = 'A';
   if(!depth){
     res.score = compute_score(board, player);
     return res;
@@ -115,8 +116,9 @@ res_minimax alphabeta_through(char *board, char player, char curPlayer,
     res_minimax child = alphabeta_through(board_copy, player,
         (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1, lower_bound,
         upper_bound);
-    if((player == curPlayer && child.score > res.score) ||
-        (player != curPlayer && child.score < res.score)) {
+    if((player == curPlayer && child.score >= res.score) ||
+        (player != curPlayer && child.score <= res.score)) {
+      // Need the score equal to have a somewhat valid move
       res.score = child.score;
       res.move = i + 65;
     }

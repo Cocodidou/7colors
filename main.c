@@ -16,8 +16,8 @@ int main()
       "Current board state:\n");
   fill_board(board);
 
-  // game(&board[0]);
-  printf("AI n.0 won %.2f%% of the time", tournament());
+  game(&board[0]);
+  // printf("AI n.0 won %.2f%% of the time\n", tournament());
 
   return 0; // Everything went well
 }

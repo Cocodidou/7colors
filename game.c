@@ -81,12 +81,12 @@ void game(char* board)
   }
 }
 
-char ai1(char* board, char player) {
-  return alphabeta_with_depth(board, player, 4);
+char ai2(char* board, char player) {
+  return alphabeta_with_depth(board, player, 3);
 }
 
-char ai2(char* board, char player) {
-  return minimax_with_depth(board, player, 3);
+char ai1(char* board, char player) {
+  return minimax_with_depth(board, player, 4);
 }
 
 double tournament() {
@@ -111,7 +111,7 @@ double tournament() {
       curPlayer = (curPlayer + 1) % 2;
     }
     res[curPlayer = (curPlayer + 1) % 2]++;
-    printf("Game n.%d -> Player %d\n", i, (curPlayer + 1) % 2);
+    printf("Game n.%d -> Player %d\n", i, curPlayer);
   }
   return (double) 100 * res[0] / nb_games;
 }
