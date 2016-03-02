@@ -55,11 +55,11 @@ void game(char* board)
         printf("\033[H\033[KAI (minimax) played %c\n", nextColor);
       }
       else {
-        nextColor = biggest_move(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-        printf("\033[H\033[KAI (biggest_move) played %c\n", nextColor);
+        nextColor = alphabeta(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+        printf("\033[H\033[KAI (alphabeta) played %c\n", nextColor);
       }
     }
-    if(type_game == '3') usleep(100000);
+    // if(type_game == '3') usleep(100000);
     if(nextColor >= 'A' && nextColor <= 'G') {
       // good choice !
       nb_cells[(int) curPlayer] += update_board(board,

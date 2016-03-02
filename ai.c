@@ -56,7 +56,7 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
     int depth) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  // res.move = '\0';
+  res.move = 'A';
   if(!depth){
     res.score = compute_score(board, player);
     return res;
@@ -86,4 +86,55 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
 
 char minimax(char *board, char player) {
   return minimax_through(board, player, player, 5).move;
+}
+
+res_minimax alphabeta_through(char *board, char player, char curPlayer,
+    int depth, int lower_bound, int upper_bound) {
+  res_minimax res;
+  res.score = (player == curPlayer)?INT_MIN:INT_MAX;
+  res.move = 'A';
+  if(!depth){
+    res.score = compute_score(board, player);
+    return res;
+  }
+  if(compute_score(board, curPlayer?SYMBOL_0:SYMBOL_1) >= BOARD_SIZE *
+      BOARD_SIZE / 2)  //game is won
+    return res;
+
+  char *board_copy = malloc(BOARD_SIZE * BOARD_SIZE);
+  int i;
+  for(i = 0; i < 8; i++) {
+    memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
+    int move = update_board(board_copy, curPlayer, i + 65);
+    if(move == 0)  // this move doesn't change anyth
+      continue;
+    res_minimax child = alphabeta_through(board_copy, player,
+        (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1, lower_bound,
+        upper_bound);
+    if((player == curPlayer && child.score > res.score) ||
+        (player != curPlayer && child.score < res.score)) {
+      res.score = child.score;
+      res.move = i + 65;
+    }
+    // Pruning
+    if(player == curPlayer) {
+      if(lower_bound < res.score) {
+        lower_bound = res.score;
+        if(upper_bound <= lower_bound)
+          break;
+      }
+    } else {
+      if(upper_bound > res.score) {
+        upper_bound = res.score;
+        if(upper_bound <= lower_bound)
+          break;
+      }
+    }
+  }
+  free(board_copy);
+  return res;
+}
+
+char alphabeta(char *board, char player) {
+  return alphabeta_through(board, player, player, 6, INT_MIN, INT_MAX).move;
 }
