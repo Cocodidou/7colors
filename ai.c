@@ -88,6 +88,10 @@ char minimax(char *board, char player) {
   return minimax_through(board, player, player, 5).move;
 }
 
+char minimax_with_depth(char *board, char player, int depth) {
+  return minimax_through(board, player, player, depth).move;
+}
+
 res_minimax alphabeta_through(char *board, char player, char curPlayer,
     int depth, int lower_bound, int upper_bound) {
   res_minimax res;
@@ -137,4 +141,8 @@ res_minimax alphabeta_through(char *board, char player, char curPlayer,
 
 char alphabeta(char *board, char player) {
   return alphabeta_through(board, player, player, 6, INT_MIN, INT_MAX).move;
+}
+
+char alphabeta_with_depth(char *board, char player, int depth) {
+  return alphabeta_through(board, player, player, depth, INT_MIN, INT_MAX).move;
 }

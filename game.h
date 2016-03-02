@@ -8,5 +8,6 @@
 
 bool is_game_finished(int*);
 void game();
+double tournament();
 
 #endif

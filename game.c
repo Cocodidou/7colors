@@ -80,3 +80,38 @@ void game(char* board)
     else continue;
   }
 }
+
+char ai1(char* board, char player) {
+  return alphabeta_with_depth(board, player, 4);
+}
+
+char ai2(char* board, char player) {
+  return minimax_with_depth(board, player, 3);
+}
+
+double tournament() {
+  printf("How many games ? ");
+  int nb_games;
+  scanf("%d", &nb_games);
+  int res[2] = {0, 0};
+  char *board = malloc(BOARD_SIZE * BOARD_SIZE);
+  int i;
+  for(i = 0; i < nb_games; i++) {
+    fill_board(board);
+    int score[2] = {1, 1};
+    int curPlayer = 0;
+    char nextColor;
+    while(!is_game_finished(score)) {
+      if(curPlayer)
+        nextColor = ai1(board, SYMBOL_1);
+      else
+        nextColor = ai2(board, SYMBOL_0);
+      score[curPlayer] += update_board(board, (curPlayer)?SYMBOL_1:SYMBOL_0,
+          nextColor);
+      curPlayer = (curPlayer + 1) % 2;
+    }
+    res[curPlayer = (curPlayer + 1) % 2]++;
+    printf("Game n.%d -> Player %d\n", i, (curPlayer + 1) % 2);
+  }
+  return (double) 100 * res[0] / nb_games;
+}
