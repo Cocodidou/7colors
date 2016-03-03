@@ -16,5 +16,7 @@ char minimax(char *board, char player);
 char minimax_with_depth(char *board, char player, int depth);
 char alphabeta(char *board, char player);
 char alphabeta_with_depth(char *board, char player, int depth);
+char alphabeta_with_expand_perimeter(char *board, char player);
+char alphabeta_with_expand_perimeter_depth(char *board, char player, int depth);
 
 #endif
