@@ -12,9 +12,9 @@ void game(char* board)
   bool isFinished = false;
   int nb_cells[2] = {1, 1};
   char type_game = '9';
-  while(type_game > '4' || type_game < '1') {
+  while(type_game > '5' || type_game < '1') {
     printf("1: 2 human players | 2: against random AI | 3: AI against AI |\n"
-           "4: against MinMax -> ");
+           "4: against MinMax | 5: against hegemonic -> ");
     type_game = getchar();
     getchar();
   }
@@ -53,8 +53,13 @@ void game(char* board)
       if (type_game == '4') {
         nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
         printf("\033[H\033[KAI (minimax) played %c\n", nextColor);
-      }
-      else {
+      } else if(type_game == '5') {
+        nextColor = hegemon(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                            (curPlayer)?BOARD_SIZE-1:0, 
+                            (curPlayer)?0:BOARD_SIZE-1, 
+                            (curPlayer)?-1:1, (curPlayer)?1:-1);
+        printf("\033[H\033[KAI (hegemonic) played %c\n", nextColor);
+      } else {
         nextColor = alphabeta(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
         printf("\033[H\033[KAI (alphabeta) played %c\n", nextColor);
       }
