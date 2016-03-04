@@ -6,6 +6,27 @@ bool is_game_finished(int nb_cells[])
       BOARD_SIZE * BOARD_SIZE / 2);
 }
 
+char ask(int curPlayer)
+{
+  printf("It's player %d's turn. Which color will they choose ? \033[K",
+    curPlayer);
+  char nextColor = getchar();
+  while(nextColor == '\n') {  // Player has hit enter instead of a color
+    printf("\033[FIt's player %d's turn. Which color will they choose ? "
+        "\033[K", curPlayer);
+    nextColor = getchar();
+  }
+  getchar();
+  while(nextColor > 'G' || nextColor < 'A') {
+    printf("\033[F\033[K");  // clear previous line
+    printf("It's player %d's turn. Which color will they choose ? ",
+        curPlayer);
+    nextColor = getchar();
+    getchar();
+  }
+  return nextColor;
+}
+
 void game(char* board)
 {
   char curPlayer = 0;
@@ -13,7 +34,7 @@ void game(char* board)
   int nb_cells[2] = {1, 1};
   char type_game = '9';
   while(type_game > '5' || type_game < '1') {
-    printf("1: 2 human players | 2: against random AI | 3: AI against AI |\n"
+    printf("1: 2 human players | 2: against alphabeta AI | 3: AI against AI |\n"
            "4: against MinMax | 5: against hegemonic -> ");
     type_game = getchar();
     getchar();
@@ -27,41 +48,46 @@ void game(char* board)
   while(!isFinished)
   {
     char nextColor;
-    if(type_game == '3' && curPlayer == 0) {
-      nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-      printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, nextColor);
-    }
-    else if(type_game == '1' || curPlayer == 0) {
-      printf("It's player %d's turn. Which color will they choose ? \033[K",
-          curPlayer);
-      nextColor = getchar();
-      while(nextColor == '\n') {  // Player has hit enter instead of a color
-        printf("\033[FIt's player %d's turn. Which color will they choose ? "
-            "\033[K", curPlayer);
-        nextColor = getchar();
+    if(curPlayer == 1)
+    {
+      switch(type_game)
+      {
+        case '1': // human v. human
+          nextColor = ask(curPlayer);
+          break;
+        case '2': // alphabeta
+          nextColor = alphabeta(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+          printf("\033[H\033[KAI (alphabeta) played %c\n", nextColor);
+          break;
+        case '3': // minimax
+          nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+          printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, nextColor);
+          break;
+        case '4': // minimax
+          nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+          printf("\033[H\033[KAI (minimax) played %c\n", nextColor);
+          break;
+        case '5': // hegemonic
+          nextColor = hegemon(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                      (curPlayer)?BOARD_SIZE-1:0, 
+                      (curPlayer)?0:BOARD_SIZE-1, 
+                      (curPlayer)?-1:1, (curPlayer)?1:-1);
+          printf("\033[H\033[KAI (hegemonic) played %c\n", nextColor);
+          break;
+        default:
+          break;
       }
-      getchar();
-      while(nextColor > 'G' || nextColor < 'A') {
-        printf("\033[F\033[K");  // clear previous line
-        printf("It's player %d's turn. Which color will they choose ? ",
-            curPlayer);
-        nextColor = getchar();
-        getchar();
-      }
-    }
-    else {
-      if (type_game == '4') {
+    } 
+    else 
+    {
+      if(type_game == '3') 
+      {
         nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-        printf("\033[H\033[KAI (minimax) played %c\n", nextColor);
-      } else if(type_game == '5') {
-        nextColor = hegemon(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
-                            (curPlayer)?BOARD_SIZE-1:0, 
-                            (curPlayer)?0:BOARD_SIZE-1, 
-                            (curPlayer)?-1:1, (curPlayer)?1:-1);
-        printf("\033[H\033[KAI (hegemonic) played %c\n", nextColor);
-      } else {
-        nextColor = alphabeta(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-        printf("\033[H\033[KAI (alphabeta) played %c\n", nextColor);
+        printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, nextColor);
+      } 
+      else 
+      {
+        nextColor = ask(curPlayer);
       }
     }
     // if(type_game == '3') usleep(100000);

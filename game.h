@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 bool is_game_finished(int*);
+char ask(int);
 void game();
 double tournament();
 
