@@ -194,7 +194,6 @@ res_minimax alphabeta_perimiter_through(char *board, char player, char
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
   // res.move = 'A';
   if(!depth){
-    // TODO compute perimeter there
     int start_i, start_j, prop_i, prop_j;
     if(get_cell(board, 0, BOARD_SIZE-1) == player) {
       start_i = BOARD_SIZE-1;
