@@ -48,10 +48,10 @@ int availArea(char* board, char player, int i, int j, int propI, int propJ) {
     set_cell(board, i, j, 0x00);
     return 1 + availArea(board, player, i + propI, j, propI, propJ)
     + availArea(board, player, i, j + propJ, propI, propJ);
-    
+
 }
 
-char hegemon(char* board, char player, int startI, int startJ, 
+char hegemon(char* board, char player, int startI, int startJ,
              int propI, int propJ) {
     char* board_copy = (char*)malloc(BOARD_SIZE * BOARD_SIZE * sizeof(char));
     memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
@@ -71,7 +71,7 @@ char hegemon(char* board, char player, int startI, int startJ,
     }
     free(board_copy);
     return argmaxColor;
-    
+
 }
 
 
@@ -113,8 +113,8 @@ res_minimax minimax_through(char *board, char player, char curPlayer,
       continue;
     res_minimax child = minimax_through(board_copy, player,
         (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1);
-    if((player == curPlayer && child.score > res.score) ||
-        (player != curPlayer && child.score < res.score)) {
+    if((player == curPlayer && child.score >= res.score) ||
+        (player != curPlayer && child.score <= res.score)) {
       // Need the score equal to have a somewhat valid move
       res.score = child.score;
       res.move = i + 65;
@@ -195,7 +195,20 @@ res_minimax alphabeta_perimiter_through(char *board, char player, char
   // res.move = 'A';
   if(!depth){
     // TODO compute perimeter there
-    res.score = compute_score(board, player);
+    int start_i, start_j, prop_i, prop_j;
+    if(get_cell(board, 0, BOARD_SIZE-1) == player) {
+      start_i = BOARD_SIZE-1;
+      start_j = 0;
+      prop_i = 1;
+      prop_j = 1;
+    }
+    else {
+      start_i = 0;
+      start_j = BOARD_SIZE - 1;
+      prop_i = -1;
+      prop_j = -1;
+    }
+    res.score = -availArea(board, player, start_i, start_j, prop_i, prop_j);
     return res;
   }
   if(compute_score(board, curPlayer?SYMBOL_0:SYMBOL_1) >= BOARD_SIZE *
