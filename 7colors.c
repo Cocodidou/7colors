@@ -70,6 +70,19 @@ void fill_board(char* board)
   set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
 }
 
+void simmetric_fill_board(char *board) {
+  int i, j;
+  for(i = 0; i < BOARD_SIZE; i++) {
+    for(j = i; j < BOARD_SIZE; j++) {
+      char color = (char)(rand() % 0x07) + 65;
+      set_cell(board, i, j, color);
+      set_cell(board, j, i, color);
+    }
+  }
+  set_cell(board, BOARD_SIZE - 1, 0, SYMBOL_0);
+  set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
+}
+
 bool is_adjacent(char* board, int i, int j, char player) {
   if(i && get_cell(board, i - 1, j) == player) return true;
   if(j && get_cell(board, i, j - 1) == player) return true;

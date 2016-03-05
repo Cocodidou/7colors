@@ -7,7 +7,7 @@ $(EXECUTABLE): $(OBJECTS)
 	gcc $^ -o $@ -lm
 
 %.o: %.c
-	gcc -Wall -Werror -Wextra $(@:.o=.c) -c -g
+	gcc -Wall -Werror -Wextra -O3 $(@:.o=.c) -c -g
 
 clean:
 	rm -f *.o *.dSYM
