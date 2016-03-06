@@ -99,12 +99,14 @@ char game(char* board, int* depths, char* game_types)
         nextColor = ask(curPlayer);
         break;
       case '2': // alphabeta
-        nextColor = alphabeta_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, depths[(int)curPlayer]);
+        nextColor = alphabeta_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                                         depths[(int)curPlayer]);
         printf("\033[H\033[KAI %d (alphabeta) played %c\n", curPlayer, 
                 nextColor);
         break;
       case '3': // minimax
-        nextColor = minimax_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, depths[(int)curPlayer]);
+        nextColor = minimax_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                                       depths[(int)curPlayer]);
         printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, 
                 nextColor);
         break;
