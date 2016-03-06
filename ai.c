@@ -15,6 +15,12 @@ char rand_valid_play(char *board, char player) {
         get_cell(board, i, j) <= 'G')
       colors_valid[get_cell(board, i, j) - 65] = 1;
   char move = (rand() % 7) + 65;
+  int availMoves = 0;
+  for(i = 0; i < 7; i++)
+      availMoves += colors_valid[i];
+  if(!availMoves)
+      return 'A'; // default : we can't do anything
+  
   while(!colors_valid[move - 65])
     move = (rand() % 7) + 65;
   return move;
