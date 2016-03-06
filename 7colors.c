@@ -70,7 +70,7 @@ void fill_board(char* board)
   set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
 }
 
-void simmetric_fill_board(char *board) {
+void symmetric_fill_board(char *board) {
   int i, j;
   for(i = 0; i < BOARD_SIZE; i++) {
     for(j = i; j < BOARD_SIZE; j++) {

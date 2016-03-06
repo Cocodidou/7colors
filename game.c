@@ -16,10 +16,11 @@ void init_game()
   ask_game_type(&(game_types[0]), &(depths[0]), (char)0x01);
   
   if(nb_games > 1)
-    tournament(game_types, depths, nb_games);
+    tournament(game_types, depths, nb_games); 
   else {
+    // ensure equality between the contestants
     char* board = malloc(BOARD_SIZE * BOARD_SIZE);
-    fill_board(board);
+    symmetric_fill_board(board);
     game(board, depths, game_types);
   }
 }
@@ -168,7 +169,7 @@ void tournament(char* game_types, int* depths, int nb_games)
   char *board = malloc(BOARD_SIZE * BOARD_SIZE);
   int i;
   for(i = 0; i < nb_games; i++) {
-    fill_board(board);
+    symmetric_fill_board(board); // ensure equality between the contestants
       char winner = game(board, depths, game_types);
       res[(int)winner]++;
   }
