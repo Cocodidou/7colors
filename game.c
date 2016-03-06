@@ -59,18 +59,18 @@ void ask_game_type(char* game_types, int* depths, char player_id)
 
 char ask(int curPlayer)
 {
-  printf("It's player %d's turn. Which color will they choose ? \033[K\n>",
-    curPlayer);
+  printf("It's player %d's turn. Which color will they choose ?"
+    " \033[K\n\033[K>",  curPlayer);
   char nextColor = getchar();
   while(nextColor == '\n') {  // Player has hit enter instead of a color
     printf("\033[FIt's player %d's turn. Which color will they choose ? "
-        "\033[K\n>", curPlayer);
+        "\033[K\n\033[K>", curPlayer);
     nextColor = getchar();
   }
   getchar();
   while(nextColor > 'G' || nextColor < 'A') {
     printf("\033[F\033[K");  // clear previous line
-    printf("It's player %d's turn. Which color will they choose ?\n>",
+    printf("It's player %d's turn. Which color will they choose ?\n\033[K>",
         curPlayer);
     nextColor = getchar();
     getchar();
@@ -122,24 +122,27 @@ char game(char* board, int* depths, char* game_types)
         break;
     }
       
-    if(nextColor >= 'A' && nextColor <= 'G') {
-      // good choice !
-      nb_cells[(int) curPlayer] += update_board(board,
-          (curPlayer)?SYMBOL_1:SYMBOL_0, nextColor);
-      print_board(board);
-
-      printf("| P0: %.2f%% | P1: %.2f%% |\n\n",
-          (double) 100.0 * nb_cells[0] / (BOARD_SIZE * BOARD_SIZE),
-          (double) 100.0 * nb_cells[1] / (BOARD_SIZE * BOARD_SIZE));
-      if(is_game_finished(nb_cells)) {
-        printf("\033[KPlayer %d won with an occupation rate of %.2f%%\n",
-            curPlayer, (double) 100.0 * nb_cells[(int) curPlayer] / (BOARD_SIZE
-              * BOARD_SIZE));
-        break;
-      }
-      curPlayer = (curPlayer + 1) % 2;
+    if(nextColor < 'A' || nextColor > 'G') {
+      // this is typically a 0x00 returned by alphabeta/minimaxi
+      // let's determine the first available move; if none, then move 'A'.
+      nextColor = rand_valid_play(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
     }
-    else continue;
+    nb_cells[(int) curPlayer] += update_board(board,
+        (curPlayer)?SYMBOL_1:SYMBOL_0, nextColor);
+    print_board(board);
+
+    printf("| P0: %.2f%% | P1: %.2f%% |\n\n",
+        (double) 100.0 * nb_cells[0] / (BOARD_SIZE * BOARD_SIZE),
+        (double) 100.0 * nb_cells[1] / (BOARD_SIZE * BOARD_SIZE));
+    if(is_game_finished(nb_cells)) {
+      printf("\033[KPlayer %d won with an occupation rate of %.2f%%\n",
+          curPlayer, (double) 100.0 * nb_cells[(int) curPlayer] / (BOARD_SIZE
+            * BOARD_SIZE));
+      break;
+    }
+    curPlayer = (curPlayer + 1) % 2;
+  
+//     else continue;
   }
   return curPlayer;
 }

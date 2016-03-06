@@ -110,3 +110,17 @@ int update_board(char* board, char player, char color) {
   return nb_cell_acquired;
 }
 
+unsigned int board_checksum(char* board) {
+    unsigned int sum = 0;
+    int i = 0, j = 0;
+    for(; i < BOARD_SIZE; i++) {
+        for(; j < BOARD_SIZE; j++) {
+            int shift = (i + j) % 4;
+            unsigned int pre_xor = ((sum >> shift) & 0xFF) << shift;
+            unsigned int xored = (((sum >> shift) & 0xFF) ^ 
+                (unsigned int)(get_cell(board, i, j))) << shift;
+            sum = (sum - pre_xor + xored);
+        }
+    }
+    return sum;
+}

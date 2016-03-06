@@ -62,9 +62,9 @@ char hegemon(char* board, char player, int startI, int startJ,
     {
         memcpy(board_copy, board, BOARD_SIZE * BOARD_SIZE);
         char color = 'A' + (char) i;
-        update_board(board_copy, player, color);
+        int gain = update_board(board_copy, player, color);
         int area = availArea(board_copy, player, startI, startJ, propI, propJ);
-        if(area < curArea) {
+        if(area < curArea || (area == curArea && gain > 0) ) {
             argmaxColor = 'A' + (char) i;
             curArea = area;
         }
@@ -136,7 +136,7 @@ res_minimax alphabeta_through(char *board, char player, char curPlayer,
     int depth, int lower_bound, int upper_bound) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  // res.move = 'A';
+  res.move = 0x00;
   if(!depth){
     res.score = compute_score(board, player);
     return res;
@@ -192,7 +192,7 @@ res_minimax alphabeta_perimiter_through(char *board, char player, char
     curPlayer, int depth, int lower_bound, int upper_bound) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
-  // res.move = 'A';
+  res.move = 0x00;
   if(!depth){
     int start_i, start_j, prop_i, prop_j;
     if(get_cell(board, 0, BOARD_SIZE-1) == player) {
