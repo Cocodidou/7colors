@@ -32,7 +32,7 @@
                                    % indentation of code (possibly needs 
                                    % columns=flexible)
   keywordstyle=\color{blue},       % keyword style
-  language=Octave,                 % the language of the code
+  language=C,                      % the language of the code
   otherkeywords={*,...},           % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible 
                                    % values are (none, left, right)
@@ -71,15 +71,21 @@
 des couleurs aléatoires, représentées par un \texttt{char} dont la valeur est
 comprise entre \texttt{0} et \texttt{7}.
 Le prototype de cette fonction est le suivant :
-\begin{lstlisting}[language=C]
-void fill_board(char* board);
+\begin{lstlisting}
+void fill_board(char* board)
 \end{lstlisting}
 On utilise dans cette fonction le générateur de nombres aléatoires de la 
 \texttt{libc}, que l'on suppose préalablement initialisé à l'aide de la 
 fonction \texttt{srand()}.
 
     \paragraph{Question 2.2}
-    
+    Nous avons implémenté la fonction \texttt{update\_board} sous le prototype 
+qui suit :
+\begin{lstlisting}
+int update_board(char* board, char player, char color)
+\end{lstlisting}
+Elle procède à la mise à jour du plateau par double boucle, en colorant les 
+voisins des cases du joueur \texttt{player} de la couleur \texttt{color}.
     \section{Partie 3}
     % Corentin
     
