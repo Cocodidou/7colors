@@ -1,5 +1,6 @@
 OBJECTS=7colors.o main.o game.o ai.o list.o
 EXECUTABLE=7colors
+CFLAGS=-Wall -Werror -Wextra -O3
 
 all: $(EXECUTABLE)
 
@@ -7,7 +8,7 @@ $(EXECUTABLE): $(OBJECTS)
 	gcc $^ -o $@ -lm
 
 %.o: %.c
-	gcc -Wall -Werror -Wextra -O3 $(@:.o=.c) -c -g
+	gcc $(CFLAGS) $(@:.o=.c) -c -g
 
 clean:
 	rm -f *.o *.dSYM
