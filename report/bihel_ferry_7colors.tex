@@ -2,40 +2,65 @@
 
 \usepackage[francais]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
 
 \title{ARCSYS2 Projet 1: 7 colors}
 \author{Simon Bihel, Corentin Ferry}
 \date{March 2016}
 
 \begin{document}
-	\maketitle
-	
-	\section{Introduction}
-	
-	\section{Partie 2}
-	% Corentin
-	
-	\section{Partie 3}
-	% Corentin
-	
-	\section{Partie 4}
-	% Simon
-	
-	\section{Partie 5}
-	% Corentin
-	
-	\section{Partie 6}
-	% Corentin pour 6.1
-	% Simon pour 6.2
-	
-	\section{Partie 7}
-	% Simon
-	
-	\section{Partie 8}
-	% Simon
-	Pretty display is pretty
-	
-	\section{Conclusion}
-	
+    \maketitle
+
+    \section{Introduction}
+
+    \section{Partie 2}
+    % Corentin
+
+    \section{Partie 3}
+    % Corentin
+
+    \section{Partie 4}
+    % Simon
+    \paragraph{4.1.} On choisit un nombre aléatoire en 0 et 7 inclus et on
+    ajoute 65 pour arriver sur des caractères entre `A' et `G' inclus.
+
+    \paragraph{4.2.} On parcours le plateau pour savoir qu'elles couleurs sont
+    adjacentes au caractère du joueur. Ensuite on choisit aléatoirement une
+    couleur et on regarde si elle est valide, sinon on recommence.
+
+    \section{Partie 5}
+    % Corentin
+
+    \section{Partie 6}
+    % Corentin pour 6.1
+    % Simon pour 6.2
+    \paragraph{6.2.} Nous sommes directement partis sur un algorithme MinMax
+    car c'est un algorithme bien connu. Nous avons pris le score comme
+    heuristique. Comme on test chaque couleur pour chaque joueur, la complexité
+    est en $O(7^n)$ où $n$ est le nombre de coups prévus. En pratique c'est un
+    peu moins car si un coup ne change pas le score du joueur courant alors on
+    ne va pas plus loin.  Ensuite nous avons mis en place un algorithme
+    AlphaBeta qui rajoute juste quelques conditions pour éviter de parcourir
+    des coups qui ne seraient pas mieux.
+
+    \section{Partie 7}
+    % Simon
+    \paragraph{7.2.} Nous avons utilisé AlphaBeta en utilisant comme
+    heuristique la fonction qui calcule l'aire disponible pour le joueur
+    adverse. Sur 100 parties contre l'ancien AlphaBeta et avec pour tous les
+    deux un nombre des coups prévus de 6, il en gagna 71. À noter qu'il était
+    le joueur qui commençait. En inversant les rôles il gagna 56 parties.
+    En mettant l'IA hégémonique à la place d'AlphaBeta normal, il gagna 93
+    parties.
+
+
+    \section{Partie 8}
+    % Simon
+    \paragraph{Meilleur affichage} Nous avons amélioré l'affichage dans le
+    terminal en utilisant des couleurs et en affichant par dessus le coups
+    précédent coup pour éviter que ça défile. Cela a été fait avec des codes
+    d'échappement ANSI.
+
+    \section{Conclusion}
+
 \end{document}
