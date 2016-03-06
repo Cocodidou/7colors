@@ -201,16 +201,16 @@ res_minimax alphabeta_perimeter_through(char *board, char player, char
   res.move = 0x00;
   if(!depth){
     int start_i, start_j, prop_i, prop_j;
-    if(get_cell(board, 0, BOARD_SIZE-1) == player) {
+    if(player == SYMBOL_1) {
       start_i = BOARD_SIZE-1;
       start_j = 0;
-      prop_i = 1;
+      prop_i = -1;
       prop_j = 1;
     }
     else {
       start_i = 0;
       start_j = BOARD_SIZE - 1;
-      prop_i = -1;
+      prop_i = 1;
       prop_j = -1;
     }
     res.score = -availArea(board, player, start_i, start_j, prop_i, prop_j);
