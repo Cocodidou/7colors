@@ -8,7 +8,10 @@
 
 bool is_game_finished(int*);
 char ask(int);
-void game();
-double tournament();
+void init_game();
+unsigned int ask_tournament();
+void ask_game_type(char* game_types, int* depths, char player_id);
+char game(char* board, int* depths, char* game_types);
+void tournament(char* game_types, int* depths, int nb_games);
 
 #endif

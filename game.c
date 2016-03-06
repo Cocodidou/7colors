@@ -6,20 +6,71 @@ bool is_game_finished(int nb_cells[])
       BOARD_SIZE * BOARD_SIZE / 2);
 }
 
+void init_game()
+{
+  char game_types[2]; // we don't have to malloc' it as it will keep alive
+  int depths[2];
+  unsigned int nb_games = ask_tournament();
+  
+  ask_game_type(&(game_types[0]), &(depths[0]), (char)0x00);
+  ask_game_type(&(game_types[0]), &(depths[0]), (char)0x01);
+  
+  if(nb_games > 1)
+    tournament(game_types, depths, nb_games);
+  else {
+    char* board = malloc(BOARD_SIZE * BOARD_SIZE);
+    fill_board(board);
+    game(board, depths, game_types);
+  }
+}
+
+unsigned int ask_tournament() 
+{
+    printf("How many turns will there be ?\nIf there is more than one turn,"
+           " then this is a tournament and stats will be displayed."
+           "\n>");
+    unsigned int ans;
+    scanf("%d", &ans);
+    getchar(); // get rid of the '\n'
+    return ans;
+}
+
+void ask_game_type(char* game_types, int* depths, char player_id)
+{
+    printf("How will player %d act ?\n"
+    "[1] Human input | [2] AlphaBeta AI | [3] Minimax AI | [4] Hegemonic AI\n"
+    ">", player_id);
+    char ans;
+    while((ans = getchar()) == '\n' || ans > '4' || ans < '1')
+        printf(">");
+    
+    game_types[(int)player_id] = ans;
+    
+    getchar(); // get rid of the '\n'
+    
+    if(ans == '2' || ans == '3') {
+      int depth;
+      printf("How deep will the search go in the tree ?\n>");
+      scanf("%d", &depth);
+      depths[(int)player_id] = depth;
+      getchar();
+    }
+}
+
 char ask(int curPlayer)
 {
-  printf("It's player %d's turn. Which color will they choose ? \033[K",
+  printf("It's player %d's turn. Which color will they choose ? \033[K\n>",
     curPlayer);
   char nextColor = getchar();
   while(nextColor == '\n') {  // Player has hit enter instead of a color
     printf("\033[FIt's player %d's turn. Which color will they choose ? "
-        "\033[K", curPlayer);
+        "\033[K\n>", curPlayer);
     nextColor = getchar();
   }
   getchar();
   while(nextColor > 'G' || nextColor < 'A') {
     printf("\033[F\033[K");  // clear previous line
-    printf("It's player %d's turn. Which color will they choose ? ",
+    printf("It's player %d's turn. Which color will they choose ?\n>",
         curPlayer);
     nextColor = getchar();
     getchar();
@@ -27,18 +78,12 @@ char ask(int curPlayer)
   return nextColor;
 }
 
-void game(char* board)
+char game(char* board, int* depths, char* game_types)
 {
   char curPlayer = 0;
   bool isFinished = false;
   int nb_cells[2] = {1, 1};
-  char type_game = '9';
-  while(type_game > '5' || type_game < '1') {
-    printf("1: 2 human players | 2: against alphabeta AI | 3: AI against AI |\n"
-           "4: against MinMax | 5: against hegemonic -> ");
-    type_game = getchar();
-    getchar();
-  }
+  
   printf("\033[2J");  // clear screen
   print_board(board);
   printf("| P0: %.2f%% | P1: %.2f%% |\n\n",
@@ -47,50 +92,34 @@ void game(char* board)
 
   while(!isFinished)
   {
-    char nextColor;
-    if(curPlayer == 1)
+    char nextColor = 'A';
+    switch(game_types[(int)curPlayer])
     {
-      switch(type_game)
-      {
-        case '1': // human v. human
-          nextColor = ask(curPlayer);
-          break;
-        case '2': // alphabeta
-          nextColor = alphabeta(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-          printf("\033[H\033[KAI (alphabeta) played %c\n", nextColor);
-          break;
-        case '3': // minimax
-          nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-          printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, nextColor);
-          break;
-        case '4': // minimax
-          nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-          printf("\033[H\033[KAI (minimax) played %c\n", nextColor);
-          break;
-        case '5': // hegemonic
-          nextColor = hegemon(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
-                      (curPlayer)?BOARD_SIZE-1:0, 
-                      (curPlayer)?0:BOARD_SIZE-1, 
-                      (curPlayer)?-1:1, (curPlayer)?1:-1);
-          printf("\033[H\033[KAI (hegemonic) played %c\n", nextColor);
-          break;
-        default:
-          break;
-      }
-    } 
-    else 
-    {
-      if(type_game == '3') 
-      {
-        nextColor = minimax(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
-        printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, nextColor);
-      } 
-      else 
-      {
+      case '1': // human v. human
         nextColor = ask(curPlayer);
-      }
+        break;
+      case '2': // alphabeta
+        nextColor = alphabeta_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, depths[(int)curPlayer]);
+        printf("\033[H\033[KAI %d (alphabeta) played %c\n", curPlayer, 
+                nextColor);
+        break;
+      case '3': // minimax
+        nextColor = minimax_with_depth(board, (curPlayer)?SYMBOL_1:SYMBOL_0, depths[(int)curPlayer]);
+        printf("\033[H\033[KAI %d (minimax) played %c\n", curPlayer, 
+                nextColor);
+        break;
+      case '4': // hegemonic
+        nextColor = hegemon(board, (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                    (curPlayer)?BOARD_SIZE-1:0, 
+                    (curPlayer)?0:BOARD_SIZE-1, 
+                    (curPlayer)?-1:1, (curPlayer)?1:-1);
+        printf("\033[H\033[KAI %d (hegemonic) played %c\n", curPlayer, 
+                nextColor);
+        break;
+      default:
+        break;
     }
-    // if(type_game == '3') usleep(100000);
+      
     if(nextColor >= 'A' && nextColor <= 'G') {
       // good choice !
       nb_cells[(int) curPlayer] += update_board(board,
@@ -110,6 +139,7 @@ void game(char* board)
     }
     else continue;
   }
+  return curPlayer;
 }
 
 char ai2(char* board, char player) {
@@ -120,29 +150,17 @@ char ai1(char* board, char player) {
   return minimax_with_depth(board, player, 4);
 }
 
-double tournament() {
-  printf("How many games ? ");
-  int nb_games;
-  scanf("%d", &nb_games);
+void tournament(char* game_types, int* depths, int nb_games) 
+{
   int res[2] = {0, 0};
   char *board = malloc(BOARD_SIZE * BOARD_SIZE);
   int i;
   for(i = 0; i < nb_games; i++) {
     fill_board(board);
-    int score[2] = {1, 1};
-    int curPlayer = 0;
-    char nextColor;
-    while(!is_game_finished(score)) {
-      if(curPlayer)
-        nextColor = ai1(board, SYMBOL_1);
-      else
-        nextColor = ai2(board, SYMBOL_0);
-      score[curPlayer] += update_board(board, (curPlayer)?SYMBOL_1:SYMBOL_0,
-          nextColor);
-      curPlayer = (curPlayer + 1) % 2;
-    }
-    res[curPlayer = (curPlayer + 1) % 2]++;
-    printf("Game n.%d -> Player %d\n", i, curPlayer);
+      char winner = game(board, depths, game_types);
+      res[(int)winner]++;
   }
-  return (double) 100 * res[0] / nb_games;
+  printf("AI n.0 won %.2f%% of the time\n", (double) 100 * res[0] / nb_games);
+  printf("AI n.1 won %.2f%% of the time\n", (double) 100 * res[1] / nb_games);
+  
 }
