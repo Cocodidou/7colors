@@ -39,16 +39,17 @@ void ask_game_type(char* game_types, int* depths, char player_id)
 {
     printf("How will player %d act ?\n"
     "[1] Human input | [2] AlphaBeta AI | [3] Minimax AI | [4] Hegemonic AI\n"
+    "[5] AlphaBeta with hegemonic heuristic\n"
     ">", player_id);
     char ans;
-    while((ans = getchar()) == '\n' || ans > '4' || ans < '1')
+    while((ans = getchar()) == '\n' || ans > '5' || ans < '1')
         printf(">");
     
     game_types[(int)player_id] = ans;
     
     getchar(); // get rid of the '\n'
     
-    if(ans == '2' || ans == '3') {
+    if(ans == '2' || ans == '3' || ans == '5') {
       int depth;
       printf("How deep will the search go in the tree ?\n>");
       scanf("%d", &depth);
@@ -118,6 +119,12 @@ char game(char* board, int* depths, char* game_types)
         printf("\033[H\033[KAI %d (hegemonic) played %c\n", curPlayer, 
                 nextColor);
         break;
+      case '5':
+        nextColor = alphabeta_with_expand_perimeter_depth(board, 
+                                                (curPlayer)?SYMBOL_1:SYMBOL_0, 
+                                                depths[(int)curPlayer]);
+        printf("\033[H\033[KAI %d (Alphabeta hegemonic) played %c\n", curPlayer, 
+                nextColor);
       default:
         break;
     }

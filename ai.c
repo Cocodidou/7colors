@@ -194,7 +194,7 @@ char alphabeta_with_depth(char *board, char player, int depth) {
   return alphabeta_through(board, player, player, depth, INT_MIN, INT_MAX).move;
 }
 
-res_minimax alphabeta_perimiter_through(char *board, char player, char
+res_minimax alphabeta_perimeter_through(char *board, char player, char
     curPlayer, int depth, int lower_bound, int upper_bound) {
   res_minimax res;
   res.score = (player == curPlayer)?INT_MIN:INT_MAX;
@@ -227,7 +227,7 @@ res_minimax alphabeta_perimiter_through(char *board, char player, char
     int move = update_board(board_copy, curPlayer, i + 65);
     if(move == 0)  // this move doesn't change anyth
       continue;
-    res_minimax child = alphabeta_through(board_copy, player,
+    res_minimax child = alphabeta_perimeter_through(board_copy, player,
         (curPlayer==SYMBOL_1)?SYMBOL_0:SYMBOL_1, depth - 1, lower_bound,
         upper_bound);
     if((player == curPlayer && child.score >= res.score) ||
@@ -256,12 +256,12 @@ res_minimax alphabeta_perimiter_through(char *board, char player, char
 }
 
 char alphabeta_with_expand_perimeter(char *board, char player) {
-  return alphabeta_perimiter_through(board, player, player, 6, INT_MIN,
+  return alphabeta_perimeter_through(board, player, player, 6, INT_MIN,
       INT_MAX).move;
 }
 
 char alphabeta_with_expand_perimeter_depth(char *board, char player, int depth)
 {
-  return alphabeta_perimiter_through(board, player, player, depth, INT_MIN,
+  return alphabeta_perimeter_through(board, player, player, depth, INT_MIN,
       INT_MAX).move;
 }
