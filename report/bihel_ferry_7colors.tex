@@ -140,10 +140,13 @@ peut s'arrêter lorsque l'un des deux joueurs a obtenu strictement plus de 50\%
 des cases.}
 
 Cette condition d'arrêt a été implémentée à l'aide de compteurs de cases. La 
-fonction de mise à jour du plateau, \texttt{update_board()}, renvoie le nombre 
+fonction de mise à jour du plateau, \texttt{update\_board()}, renvoie le nombre 
 de case gagnées par le joueur en cours : la valeur de son compteur est alors 
 incrémentée. Lorsque l'un des deux joueurs a plus de la moitié des cases du 
 plateau, le jeu s'arrête.
+
+L'affichage du pourcentage de cases occupées par chaque joueur est effectué 
+après chaque tour à l'aide de la fonction \texttt{printf()}.
     \section{Partie 4}
     % Simon
     \paragraph{4.1.} On choisit un nombre aléatoire en 0 et 7 inclus et on
