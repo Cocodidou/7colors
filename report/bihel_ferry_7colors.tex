@@ -4,7 +4,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{listings}
-\usepackage{color}
+\usepackage{xcolor}
+\usepackage{fullpage}
 
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -20,7 +21,7 @@
                                    % at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom
-  commentstyle=\color{mygreen},    % comment style
+  commentstyle=\itshape\color{purple!40!black},    % comment style
   deletekeywords={...},            % if you want to delete keywords from the
                                    % given language
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
@@ -28,10 +29,11 @@
                                    % 8-bits encodings only, does not work with
                                    % UTF-8
   frame=single,                       % adds a frame around the code
+  identifierstyle=\color{blue},
   keepspaces=true,                 % keeps spaces in text, useful for keeping
                                    % indentation of code (possibly needs
                                    % columns=flexible)
-  keywordstyle=\color{blue},       % keyword style
+  keywordstyle=\bfseries\color{green!40!black},       % keyword style
   language=C,                      % the language of the code
   otherkeywords={*,...},           % if you want to add more keywords to the set
   numbers=left,                    % where to put the line-numbers; possible
@@ -49,12 +51,14 @@
                                    % underscores
   stepnumber=2,                    % the step between two line-numbers. If it's
                                    % 1, each line will be numbered
-  stringstyle=\color{mymauve},     % string literal style
+  stringstyle=\color{orange},     % string literal style
   tabsize=2,                       % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with
                                    % \lstinputlisting; also try caption instead
                                    % of title
 }
+
+\newcommand{\boardsize}{\ensuremath{\mathtt{BOARD\_SIZE}}}
 
 \title{ARCSYS2 Projet 1: 7 colors}
 \author{Simon Bihel, Corentin Ferry}
@@ -87,9 +91,48 @@ int update_board(char* board, char player, char color)
 \end{lstlisting}
 Elle procède à la mise à jour du plateau par double boucle, en colorant les 
 voisins des cases du joueur \texttt{player} de la couleur \texttt{color}.
+Cette opération est répétée jusqu'à ce que plus aucune case du plateau ne soit 
+changée.
 
+Compte tenu de la structure de cette fonction, on peut s'assurer qu'elle fait 
+bien ce que l'on cherche (autrement dit, que la coloration de proche en proche 
+est bien effectuée) en remplissant le plateau d'une seule couleur. Le premier 
+joueur à choisir cette couleur devrait alors s'attribuer l'ensemble des cases 
+du plateau, sauf celle de départ de son adversaire. 
+
+C'est d'ailleurs ce cas-là qui est le pire relativement à la complexité 
+temporelle : c'est celui qui comporte le plus de cases à colorier en un seul 
+tour, et surtout, c'est un cas tel qu'il existe une suite de cases adjacentes 
+de même couleur entre la case de départ d'un joueur et celle de l'autre, qui 
+sont les cases les plus éloignées du plateau.
+
+Le monde va être mis à jour par diagonales successives en partant du joueur qui 
+a choisi la bonne couleur, comme sur la figure qui suit. (figure à dessiner)
+
+Alors, il y aura $2(\boardsize-1)$ passes à effectuer, où \boardsize{} est la 
+taille du plateau. 
+
+    \paragraph{Question 2.3}
+    Nous n'avons pas réécrit la fonction précédente. Néanmoins, on peut 
+proposer une implémentation de type \emph{flood-fill}~: il s'agirait de 
+procéder récursivement au remplissage des cases selon la fonction récursive 
+suivante:
+\begin{lstlisting}
+fill(i, j, couleur_cible, joueur) :
+   - Si couleur(i, j) == joueur ou couleur(case) == couleur_cible:
+        changer_couleur(i, j, couleur_cible)
+        fill(i+-1, j, couleur_cible)
+        fill(i, j+-1, couleur_cible)
+   - Sinon, ne rien faire
+\end{lstlisting}
     \section{Partie 3}
-    % Corentin
+    \paragraph{Question 3.1} Compte tenu du fait que nous allions devoir 
+écrire des stratégies de jeu automatiques, nous avons écrit la fonction 
+\texttt{game()} dont la structure permet de choisir la méthode de jeu de chaque 
+joueur. Les fonctions de stratégies auxquelles \texttt{game()} fait appel 
+renvoient toutes un \textt{char} qui est la couleur choisie par le joueur.
+Il existe donc une fonction \texttt{ask()}, dont le rôle est de demander à 
+l'utilisateur la couleur qu'il a choisi de jouer. 
 
     \section{Partie 4}
     % Simon
