@@ -117,14 +117,6 @@ taille du plateau.
 proposer une implémentation de type \emph{flood-fill}~: il s'agirait de 
 procéder récursivement au remplissage des cases selon la fonction récursive 
 suivante:
-\begin{lstlisting}
-fill(i, j, couleur_cible, joueur) :
-   - Si couleur(i, j) == joueur ou couleur(case) == couleur_cible:
-        changer_couleur(i, j, couleur_cible)
-        fill(i+-1, j, couleur_cible)
-        fill(i, j+-1, couleur_cible)
-   - Sinon, ne rien faire
-\end{lstlisting}
     \section{Partie 3}
     \paragraph{Question 3.1} Compte tenu du fait que nous allions devoir 
 écrire des stratégies de jeu automatiques, nous avons écrit la fonction 
@@ -134,6 +126,20 @@ renvoient toutes un \texttt{char} qui est la couleur choisie par le joueur.
 Il existe donc une fonction \texttt{ask()}, dont le rôle est de demander à 
 l'utilisateur la couleur qu'il a choisi de jouer. 
 
+Notre implémentation évite les dépassements de buffer en récupérant un seul 
+caractère via la fonction \texttt{getchar()}. 
+
+Ceci étant, notre implémentation 
+    \paragraph{Question 3.2}
+    Nous avons choisi la condition suffisante d'arrêt suivante : \textbf{le jeu 
+peut s'arrêter lorsque l'un des deux joueurs a obtenu strictement plus de 50\% 
+des cases.}
+
+Cette condition d'arrêt a été implémentée à l'aide de compteurs de cases. La 
+fonction de mise à jour du plateau, \texttt{update_board()}, renvoie le nombre 
+de case gagnées par le joueur en cours : la valeur de son compteur est alors 
+incrémentée. Lorsque l'un des deux joueurs a plus de la moitié des cases du 
+plateau, le jeu s'arrête.
     \section{Partie 4}
     % Simon
     \paragraph{4.1.} On choisit un nombre aléatoire en 0 et 7 inclus et on
