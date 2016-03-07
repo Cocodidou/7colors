@@ -60,14 +60,18 @@
 
 \newcommand{\boardsize}{\ensuremath{\mathtt{BOARD\_SIZE}}}
 
-\title{ARCSYS2 Projet 1: 7 colors}
+\title{ARCSYS2 TP noté : 7 colors}
 \author{Simon Bihel, Corentin Ferry}
-\date{March 2016}
+\date{Mars 2016}
 
 \begin{document}
     \maketitle
 
     \section{Introduction}
+    Dans ce rapport nous présentons notre travail pour le TP noté d'ARCSYS sur 
+    le jeu \textit{7 colors}. En plus des questions obligatoires nous avons 
+    réalisé une IA hégémonique, une IA AlphaBeta et aussi un meilleur affichage 
+    pour le terminal.
 
     \section{Partie 2}
     \paragraph{Question 2.1}
@@ -141,7 +145,8 @@ l'utilisateur la couleur qu'il a choisi de jouer.
 
     \paragraph{4.2.} On parcours le plateau pour savoir qu'elles couleurs sont
     adjacentes au caractère du joueur. Ensuite on choisit aléatoirement une
-    couleur et on regarde si elle est valide, sinon on recommence.
+    couleur et on regarde si elle est valide, sinon on choisi à nouveau une 
+    couleur aléatoirement.
 
     \section{Partie 5}
     % Corentin
@@ -154,9 +159,10 @@ l'utilisateur la couleur qu'il a choisi de jouer.
     heuristique. Comme on test chaque couleur pour chaque joueur, la complexité
     est en $O(7^n)$ où $n$ est le nombre de coups prévus. En pratique c'est un
     peu moins car si un coup ne change pas le score du joueur courant alors on
-    ne va pas plus loin.  Ensuite nous avons mis en place un algorithme
-    AlphaBeta qui rajoute juste quelques conditions pour éviter de parcourir
-    des coups qui ne seraient pas mieux.
+    ne va pas plus loin. Aussi, pour chaque coup on simule l'avancement de la 
+    partie donc une copie du plateau est faite. Ensuite nous avons mis en place 
+    un algorithme AlphaBeta qui rajoute juste quelques conditions pour éviter 
+    de parcourir des coups qui ne seraient pas mieux.
 
     \section{Partie 7}
     % Simon
@@ -177,5 +183,8 @@ l'utilisateur la couleur qu'il a choisi de jouer.
     d'échappement ANSI.
 
     \section{Conclusion}
+    Au final nous sommes satisfaits de nos IA hégémoniques et AlphaBeta qui se 
+    sont montrées meilleures que de simples IA gloutonnes. De plus l'alliance 
+    des deux s'est aussi montrée supérieure.
 
 \end{document}
