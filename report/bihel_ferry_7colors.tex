@@ -119,21 +119,32 @@ taille du plateau.
     \paragraph{Question 2.3}
     Nous n'avons pas réécrit la fonction précédente. Néanmoins, on peut 
 proposer une implémentation de type \emph{flood-fill}~: il s'agirait de 
-procéder récursivement au remplissage des cases selon la fonction récursive 
-suivante:
+procéder récursivement au remplissage des cases, en partant de la case de 
+départ du joueur courant.
+
+Pour chaque case parcourue, on regarde si celle-ci appartient au joueur ou est 
+de la couleur cible. Si c'est le cas, on parcourt les cases adjacentes, dans 
+deux directions, en s'éloignant de la case de départ (pour éviter de passer 
+plusieurs fois sur des cases déjà visitées). Il serait nécessaire d'implémenter 
+un système de marquage; nous avons utilisé cette technique à la question 6.1.
+
     \section{Partie 3}
     \paragraph{Question 3.1} Compte tenu du fait que nous allions devoir 
 écrire des stratégies de jeu automatiques, nous avons écrit la fonction 
 \texttt{game()} dont la structure permet de choisir la méthode de jeu de chaque 
 joueur. Les fonctions de stratégies auxquelles \texttt{game()} fait appel 
 renvoient toutes un \texttt{char} qui est la couleur choisie par le joueur.
-Il existe donc une fonction \texttt{ask()}, dont le rôle est de demander à 
-l'utilisateur la couleur qu'il a choisi de jouer. 
+Nous avons donc écrit une fonction \texttt{ask()}, dont le rôle est de demander 
+à l'utilisateur la couleur qu'il a choisi de jouer. 
 
 Notre implémentation évite les dépassements de buffer en récupérant un seul 
-caractère via la fonction \texttt{getchar()}. 
+caractère via la fonction \texttt{getchar()}; tant que celui-ci n'est pas dans 
+l'intervalle des 7 couleurs permises, on demande à nouveau à l'utilisateur de 
+choisir une couleur.
 
-Ceci étant, notre implémentation 
+Compte tenu de la simplicité de la fonction \texttt{ask()}, nous n'avons pas 
+relevé de limite particulière qui lui serait imputable; elle remplit simplement 
+son rôle.
     \paragraph{Question 3.2}
     Nous avons choisi la condition suffisante d'arrêt suivante : \textbf{le jeu 
 peut s'arrêter lorsque l'un des deux joueurs a obtenu strictement plus de 50\% 
@@ -149,13 +160,20 @@ L'affichage du pourcentage de cases occupées par chaque joueur est effectué
 après chaque tour à l'aide de la fonction \texttt{printf()}.
     \section{Partie 4}
     % Simon
-    \paragraph{4.1.} On choisit un nombre aléatoire en 0 et 7 inclus et on
-    ajoute 65 pour arriver sur des caractères entre `A' et `G' inclus.
+    \paragraph{Question 4.1} 
+    Nous avons implémenté une fonction de choix aléatoire de couleur. Elle se 
+base sur la fonction \texttt{rand()} de la \texttt{libc}. On choisit un nombre 
+aléatoire avec \texttt{rand()} entre 0 et 7 inclus, en utilisant un modulo, et 
+on ajoute 65 pour arriver sur des caractères entre `A' et `G' inclus. 
 
-    \paragraph{4.2.} On parcours le plateau pour savoir qu'elles couleurs sont
-    adjacentes au caractère du joueur. Ensuite on choisit aléatoirement une
-    couleur et on regarde si elle est valide, sinon on choisi à nouveau une 
-    couleur aléatoirement.
+Le résultat, de type \texttt{int}, est soumis à un \emph{cast} vers le type 
+\texttt{char} avant d'être renvoyé.
+
+    \paragraph{Question 4.2} 
+    On parcourt le plateau pour savoir de quelles couleurs sont les 
+cases adjacentes à la zone du joueur. Ensuite, on choisit aléatoirement une 
+couleur et on la renvoie si un coup est possible avec; sinon, on choisit à 
+nouveau une couleur aléatoirement.
 
     \section{Partie 5}
     \paragraph{Question 5.1}
@@ -203,20 +221,27 @@ couleur, ainsi l'algorithme travaille sur une copie du plateau de jeu.
 
 Il n'y a alors qu'à compter le nombre de cases atteignables par l'autre joueur 
 lors de l'exécution de l'algorithme de \emph{flood-fill}.
-    % Simon pour 6.2
-    \paragraph{6.2.} Nous sommes directement partis sur un algorithme MinMax
-    car c'est un algorithme bien connu. Nous avons pris le score comme
-    heuristique. Comme on test chaque couleur pour chaque joueur, la complexité
-    est en $O(7^n)$ où $n$ est le nombre de coups prévus. En pratique c'est un
-    peu moins car si un coup ne change pas le score du joueur courant alors on
-    ne va pas plus loin. Aussi, pour chaque coup on simule l'avancement de la 
-    partie donc une copie du plateau est faite. Ensuite nous avons mis en place 
-    un algorithme AlphaBeta qui rajoute juste quelques conditions pour éviter 
-    de parcourir des coups qui ne seraient pas mieux.
 
+Nous avons effectué un championnat de 100 parties entre le joueur hégémonique 
+et le joueur glouton. Le joueur glouton a gagné 53 parties, le joueur 
+hégémonique en a gagné 47. Lors d'un deuxième championnat, le joueur 
+hégémonique a gagné avec 63 victoires contre 37 pour le glouton.
+    % Simon pour 6.2
+    \paragraph{Question 6.2} Nous sommes directement partis sur un algorithme 
+MinMax, cet algorithme étant classique. Nous avons choisi le score comme
+    heuristique. Comme on teste chaque couleur pour chaque joueur, la complexité
+    est dans le pire cas en $O(7^n)$ où $n$ est le nombre de coups prévus. En 
+pratique, la complexité est moindre, car si un coup ne change pas le score du 
+joueur courant alors on n'explore pas les coups qui le suivent. Aussi, pour 
+chaque coup on simule l'avancement de la partie~: on travaille donc sur 
+une copie du plateau. 
+
+Nous avons ensuite mis en place un algorithme AlphaBeta qui rajoute juste 
+quelques conditions pour éviter de parcourir des coups qui conduisent à coup 
+sûr à la défaite.
     \section{Partie 7}
     % Simon
-    \paragraph{7.2.} Nous avons utilisé AlphaBeta en utilisant comme
+    \paragraph{Question 7.2} Nous avons utilisé AlphaBeta en utilisant comme
     heuristique la fonction qui calcule l'aire disponible pour le joueur
     adverse. Sur 100 parties contre l'ancien AlphaBeta et avec pour tous les
     deux un nombre des coups prévus de 6, il en gagna 71. À noter qu'il était
