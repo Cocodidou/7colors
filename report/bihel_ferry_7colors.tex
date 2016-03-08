@@ -109,8 +109,9 @@ qui suit :
 \begin{lstlisting}
 int update_board(char* board, char player, char color)
 \end{lstlisting}
-Elle procède à la mise à jour du plateau par double boucle, en colorant les 
-voisins des cases du joueur \texttt{player} de la couleur \texttt{color}.
+Elle procède à la mise à jour du plateau par double boucle, en attribuant au 
+joueur \texttt{player} les cases voisines des siennes, qui sont de la couleur 
+\texttt{color}.
 Cette opération est répétée jusqu'à ce que plus aucune case du plateau ne soit 
 changée.
 
@@ -126,7 +127,8 @@ tour, et surtout, c'est un cas tel qu'il existe une suite de cases adjacentes
 de même couleur entre la case de départ d'un joueur et celle de l'autre, qui 
 sont les cases les plus éloignées du plateau.
 
-Le monde va être mis à jour par lignes ou colonnes successives (selon le point 
+Dans ce cas, le monde va être mis à jour par lignes ou colonnes successives 
+(selon le point 
 de départ) en partant du joueur qui a choisi la bonne couleur, comme sur la 
 figure \ref{update_board}.
 \begin{figure}
@@ -161,7 +163,9 @@ un système de marquage; nous avons utilisé cette technique à la question 6.1.
 écrire des stratégies de jeu automatiques, nous avons écrit la fonction 
 \texttt{game()} dont la structure permet de choisir la méthode de jeu de chaque 
 joueur. Les fonctions de stratégies auxquelles \texttt{game()} fait appel 
-renvoient toutes un \texttt{char} qui est la couleur choisie par le joueur.
+renvoient toutes un \texttt{char} qui est la couleur choisie par le joueur. La 
+bonne fonction à appeler est déterminée par une structure de contrôle de type 
+\texttt{switch/case}.
 
 Nous avons donc écrit une fonction \texttt{ask()}, dont le rôle est de demander 
 à l'utilisateur la couleur qu'il a choisi de jouer. 
