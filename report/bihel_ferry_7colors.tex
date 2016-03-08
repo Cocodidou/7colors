@@ -224,7 +224,9 @@ adversaire et emportera la partie.
     Nous avons effectué un championnat de 100 parties, entre le joueur 
 artificiel glouton et le joueur aléatoire. L'intégralité des parties a été 
 remportée par le joueur glouton. En effectuant 15 championnats successifs, le 
-joueur aléatoire n'a pas remporté une seule partie.
+joueur aléatoire n'a pas remporté une seule partie. Il n'a pas dépassé les 30\% 
+de terrain acquis par partie, ce qui le laisse loin de l'obtention d'une 
+victoire.
 
     \section{Partie 6}
     % Corentin pour 6.1
@@ -310,6 +312,17 @@ gloutonne va maximiser l'aire du joueur, en comblant éventuellement ces trous.
 
 La combinaison des deux stratégies gagnantes, à savoir la méthode hégémonique 
 utilisée en tant qu'heuristique de AlphaBeta, donne une meilleure stratégie.
-    
+
+Un point qui mérite d'être soulevé indépendamment du jeu est 
+le fait que '\texttt{valgrind} affiche une fuite de mémoire, constante, de 900 
+octets, soit la taille d'un plateau. Cela signifie qu'un des plateaux créés n'a 
+pas été libéré; une exploration profonde du code permettrait de trouver où la 
+libération n'a pas été effectuée.
+
+Nous n'avons pas implémenté d'interface graphique fenêtrée, qui utilise X11. 
+Ceci constitue une évolution possible du jeu, pour permettre une interaction 
+avec la souris, et une familiarisation avec l'usage de librairies externes, 
+comme \texttt{libsdl}, \texttt{libsfml}.
+
     
 \end{document}
