@@ -170,10 +170,13 @@ Le résultat, de type \texttt{int}, est soumis à un \emph{cast} vers le type
 \texttt{char} avant d'être renvoyé.
 
     \paragraph{Question 4.2} 
-    On parcourt le plateau pour savoir de quelles couleurs sont les 
-cases adjacentes à la zone du joueur. Ensuite, on choisit aléatoirement une 
-couleur et on la renvoie si un coup est possible avec; sinon, on choisit à 
-nouveau une couleur aléatoirement.
+    Pour jouer un coup aléatoirement en étant sûr d'ajouter des cases à la 
+zone du joueur, on parcourt le plateau pour savoir de quelles couleurs sont les 
+cases adjacentes à cette zone. 
+
+Ensuite, on choisit aléatoirement une couleur à l'aide de \texttt{rand() \% 
+7} et on la renvoie si un coup ajoutant des cases à la zone du joueur est 
+possible avec; sinon, on choisit à nouveau une couleur aléatoirement.
 
     \section{Partie 5}
     \paragraph{Question 5.1}
@@ -232,13 +235,18 @@ MinMax, cet algorithme étant classique. Nous avons choisi le score comme
     heuristique. Comme on teste chaque couleur pour chaque joueur, la complexité
     est dans le pire cas en $O(7^n)$ où $n$ est le nombre de coups prévus. En 
 pratique, la complexité est moindre, car si un coup ne change pas le score du 
-joueur courant alors on n'explore pas les coups qui le suivent. Aussi, pour 
-chaque coup on simule l'avancement de la partie~: on travaille donc sur 
-une copie du plateau. 
+joueur courant, alors on n'explore pas les coups qui le suivent. 
+Aussi, pour chaque coup, on simule l'avancement de la partie~: on travaille 
+donc sur une copie du plateau. 
 
-Nous avons ensuite mis en place un algorithme AlphaBeta qui rajoute juste 
-quelques conditions pour éviter de parcourir des coups qui conduisent à coup 
-sûr à la défaite.
+Nous avons ensuite mis en place un algorithme AlphaBeta qui rajoute quelques 
+conditions pour éviter de parcourir des coups qui conduisent à coup sûr à la 
+défaite : on choisira d'arrêter l'exploration de l'arbre dès lors que le score 
+maximal que le joueur en cours peut atteindre, est inférieur au score minimal 
+que le joueur adverse peut atteindre. Une telle situation est en effet synonyme 
+de défaite.
+
+
     \section{Partie 7}
     % Simon
     \paragraph{Question 7.2} Nous avons utilisé AlphaBeta en utilisant comme
