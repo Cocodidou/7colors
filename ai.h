@@ -5,7 +5,6 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
-#include "list.h"
 #include <limits.h>
 
 char rand_play();

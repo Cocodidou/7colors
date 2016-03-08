@@ -1,4 +1,4 @@
-OBJECTS=7colors.o main.o game.o ai.o list.o
+OBJECTS=7colors.o main.o game.o ai.o
 EXECUTABLE=7colors
 CFLAGS=-Wall -Werror -Wextra -O3
 
