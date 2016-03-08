@@ -82,6 +82,13 @@ l'adversaire de jouer.
     En plus des questions obligatoires, nous avons réalisé une IA hégémonique, 
 une IA AlphaBeta et aussi un meilleur affichage pour le terminal.
 
+    L'ensemble des fonctions que nous avons écrites sont documentées au-dessus 
+de leur implémentation, dans le fichier .c qui les contient. Les fonctions 
+relatives aux règles du jeu sont dans \texttt{7colors.c}, les fonctions 
+relatives à l'entrée/sortie et au déroulement du jeu sont dans \texttt{game.c}, 
+les fonctions relatives à l'intelligence articifielle sont dans \texttt{ai.c}.
+Le format de la documentation est \emph{Javadoc}.
+
     \section{Partie 2 : Voir le monde en 7 couleurs}
     \paragraph{Question 2.1}
     Nous avons implémenté une fonction permettant de remplir le monde avec
@@ -152,6 +159,7 @@ un système de marquage; nous avons utilisé cette technique à la question 6.1.
 \texttt{game()} dont la structure permet de choisir la méthode de jeu de chaque 
 joueur. Les fonctions de stratégies auxquelles \texttt{game()} fait appel 
 renvoient toutes un \texttt{char} qui est la couleur choisie par le joueur.
+
 Nous avons donc écrit une fonction \texttt{ask()}, dont le rôle est de demander 
 à l'utilisateur la couleur qu'il a choisi de jouer. 
 
@@ -179,7 +187,10 @@ après chaque tour à l'aide de la fonction \texttt{printf()}.
     \section{Partie 4 : La stratégie de l'aléa}
     % Simon
     \paragraph{Question 4.1} 
-    Nous avons implémenté une fonction de choix aléatoire de couleur. Elle se 
+Il s'agit de la première stratégie automatisée que nous avons créée. La 
+fonction \texttt{game()} y fait appel.
+
+Nous avons implémenté une fonction de choix aléatoire de couleur. Elle se 
 base sur la fonction \texttt{rand()} de la \texttt{libc}. On choisit un nombre 
 aléatoire avec \texttt{rand()} entre 0 et 7 inclus, en utilisant un modulo, et 
 on ajoute 65 pour arriver sur des caractères entre `A' et `G' inclus. 
@@ -198,6 +209,7 @@ possible avec; sinon, on choisit à nouveau une couleur aléatoirement.
 
     \section{Partie 5 : La loi du plus fort}
     \paragraph{Question 5.1}
+    
     Nous avons implémenté une stratégie de jeu dans laquelle le joueur cherche 
 à obtenir le plus de cases permises à chaque tour de jeu. Pour ce faire, on 
 travaille sur une copie du plateau générée à l'aide de \texttt{memcpy()}, sur 
@@ -208,6 +220,11 @@ celles qui a permis d'obtenir le plus de cases.
 
 Le plateau de jeu est rétabli entre chaque couleur essayée, en ré-effectuant 
 une copie du plateau original avec \texttt{memcpy()}.
+
+Le prototype de cette stratégie est : 
+\begin{lstlisting}
+char biggest_move(char* board, char player)
+\end{lstlisting}
 
     \paragraph{Question 5.2}
     Nous avons fait s'affronter le joueur articifiel aléatoire et le joueur 
