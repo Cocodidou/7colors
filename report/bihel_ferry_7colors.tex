@@ -6,6 +6,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fullpage}
+\usepackage{graphicx}
 
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -77,7 +78,7 @@
     \paragraph{Question 2.1}
     Nous avons implémenté une fonction permettant de remplir le monde avec
 des couleurs aléatoires, représentées par un \texttt{char} dont la valeur est
-comprise entre \texttt{0} et \texttt{7}.
+comprise entre \texttt{65} (\texttt{A}) et \texttt{72} (\texttt{G}).
 Le prototype de cette fonction est le suivant :
 \begin{lstlisting}
 void fill_board(char* board)
@@ -205,9 +206,8 @@ adversaire et emportera la partie.
     \paragraph{Question 5.3}
     Nous avons effectué un championnat de 100 parties, entre le joueur 
 artificiel glouton et le joueur aléatoire. L'intégralité des parties a été 
-remportée par le joueur glouton.
-
-\textbf{Dresser quelques stats de score !}
+remportée par le joueur glouton. En effectuant 15 championnats successifs, le 
+joueur aléatoire n'a pas remporté une seule partie.
 
     \section{Partie 6}
     % Corentin pour 6.1
@@ -226,10 +226,21 @@ Il n'y a alors qu'à compter le nombre de cases atteignables par l'autre joueur
 lors de l'exécution de l'algorithme de \emph{flood-fill}.
 
 Nous avons effectué un championnat de 100 parties entre le joueur hégémonique 
-et le joueur glouton. Le joueur glouton a gagné 53 parties, le joueur 
-hégémonique en a gagné 47. Lors d'un deuxième championnat, le joueur 
-hégémonique a gagné avec 63 victoires contre 37 pour le glouton.
-    % Simon pour 6.2
+et le joueur glouton. Les statistiques sur 15 parties sont situées figure 
+\ref{hegemon_greedy}.
+
+
+\begin{figure}
+\centering
+
+\includegraphics[width=.45\columnwidth]{hegemon_vs_greedy}
+\includegraphics[width=.45\columnwidth]{hegemon_vs_greedy_bar}
+
+\caption{\label{hegemon_greedy} À droite, le nombre de victoires remportées par 
+l'algorithme glouton et par championnat. À gauche, les minima, maxima, moyenne 
+et écart-type.}
+\end{figure}
+
     \paragraph{Question 6.2} Nous sommes directement partis sur un algorithme 
 MinMax, cet algorithme étant classique. Nous avons choisi le score comme
     heuristique. Comme on teste chaque couleur pour chaque joueur, la complexité
