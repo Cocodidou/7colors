@@ -1,17 +1,27 @@
 #include "game.h"
 
+/** Determine whether game is finished, i.e. a player has more than half of 
+ * the available cells.
+ * @param nb_cells An array containing how many cells each player has. This
+ * array has to have 2 elements.
+ */
 bool is_game_finished(int nb_cells[])
 {
   return (nb_cells[0] >= BOARD_SIZE * BOARD_SIZE / 2 || nb_cells[1] >=
       BOARD_SIZE * BOARD_SIZE / 2);
 }
 
+/** Ask the user for game settings, then play the game according to the settings
+ * the user gave.
+ */
 void init_game()
 {
   char game_types[2]; // we don't have to malloc' it as it will keep alive
   int depths[2];
+  // ask the user for the number of games to play
   unsigned int nb_games = ask_tournament();
   
+  // ask the user for players strategies
   ask_game_type(&(game_types[0]), &(depths[0]), (char)0x00);
   ask_game_type(&(game_types[0]), &(depths[0]), (char)0x01);
   
@@ -25,6 +35,7 @@ void init_game()
   }
 }
 
+/** Ask the user for the number of games to play. */
 unsigned int ask_tournament() 
 {
     printf("How many turns will there be ?\nIf there is more than one turn,"
@@ -36,6 +47,13 @@ unsigned int ask_tournament()
     return ans;
 }
 
+/** Ask the user for a game type that will apply to a player.
+ * @param game_types An array containing the game types for each player. This
+ * function fills one element of this array.
+ * @param depths An array containing the depths to which alphabeta/minimax will
+ * search, if applicable. One element of this array may be set.
+ * @param player_id The identifier for the current player.
+ */
 void ask_game_type(char* game_types, int* depths, char player_id)
 {
     printf("How will player %d act ?\n"
@@ -59,6 +77,7 @@ void ask_game_type(char* game_types, int* depths, char player_id)
     }
 }
 
+/** Ask the player to pick a color. */
 char ask(int curPlayer)
 {
   printf("It's player %d's turn. Which color will they choose ?"
@@ -80,6 +99,13 @@ char ask(int curPlayer)
   return nextColor;
 }
 
+/** The main game function, that runs a single game.
+ * @param board An initialized board.
+ * @param depths The depths to which alphabetas and minimaxes will go to.
+ * This array should have been filled by calling ask_game_type().
+ * @param game_types The game types that will apply to each player.
+ * This array should have been filled by calling ask_game_type().
+ */
 char game(char* board, int* depths, char* game_types)
 {
   char curPlayer = 0;
@@ -149,20 +175,19 @@ char game(char* board, int* depths, char* game_types)
       break;
     }
     curPlayer = (curPlayer + 1) % 2;
-  
-//     else continue;
+
   }
   return curPlayer;
 }
 
-char ai2(char* board, char player) {
-  return alphabeta_with_depth(board, player, 3);
-}
-
-char ai1(char* board, char player) {
-  return minimax_with_depth(board, player, 4);
-}
-
+/** Run a tournament then show statistics. Running a tournament is 
+ * reinitializing the board after each game, and counting the score.
+ * @param depths The depths to which alphabetas and minimaxes will go to.
+ * This array should have been filled by calling ask_game_type().
+ * @param game_types The game types that will apply to each player.
+ * This array should have been filled by calling ask_game_type().
+ * @param nb_games How many games should be played.
+ */
 void tournament(char* game_types, int* depths, int nb_games) 
 {
   int res[2] = {0, 0};

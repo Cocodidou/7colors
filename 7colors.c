@@ -9,22 +9,33 @@
  */
 // char board[BOARD_SIZE * BOARD_SIZE] = { 0 }; // Filled with zeros
 
-/** Retrieves the color of a given board cell */
+/** Retrieve the color of a given board cell
+ * @param board The board.
+ * @param x The abscissa of the cell to retrieve.
+ * @param y The ordinate of the cell to retrieve.
+ */
 char get_cell(char* board, int x, int y)
 {
   return board[y*BOARD_SIZE + x];
 }
 
-/** Changes the color of a given board cell */
+/** Change the color of a given board cell.
+ * @param board The board.
+ * @param x The target cell abscissa.
+ * @param y The target cell ordinate.
+ */
 void set_cell(char* board, int x, int y, char color)
 {
   board[y*BOARD_SIZE + x] = color;
 }
 
-/** Prints the current state of the board on screen
+/** Print the current state of the board on screen
  *
  * Implementation note: It would be nicer to do this with ncurse or even
  * SDL/allegro, but this is not really the purpose of this assignment.
+ * 
+ * @param board The board to be printed.
+ * 
  */
 void print_board(char* board)
 {
@@ -58,6 +69,9 @@ void print_board(char* board)
   }
 }
 
+/** Fill the board with random colors.
+ * @param board The board. Note that this function doesn't allocate any memory.
+ */
 void fill_board(char* board)
 {
   int i,j;
@@ -70,6 +84,10 @@ void fill_board(char* board)
   set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
 }
 
+
+/** Fill the board with random colors as a symmetric matrix.
+ * @param board The board. Note that this function doesn't allocate any memory.
+ */
 void symmetric_fill_board(char *board) {
   int i, j;
   for(i = 0; i < BOARD_SIZE; i++) {
@@ -83,6 +101,12 @@ void symmetric_fill_board(char *board) {
   set_cell(board, 0, BOARD_SIZE - 1, SYMBOL_1);
 }
 
+/** Determine whether a cell has adjacent cells belonging to player.
+ * @param board The board.
+ * @param i The cell's abscissa.
+ * @param j The cell's ordinate.
+ * @param player The player's symbol.
+ */
 bool is_adjacent(char* board, int i, int j, char player) {
   if(i && get_cell(board, i - 1, j) == player) return true;
   if(j && get_cell(board, i, j - 1) == player) return true;
@@ -91,6 +115,13 @@ bool is_adjacent(char* board, int i, int j, char player) {
   return false;
 }
 
+/** This is the game's core function. It updates the board given a player, the 
+ * color they have chosen to play and the board.
+ * Returns the number of cells the player has gained.
+ * @param board The board.
+ * @param player The symbol for the current player.
+ * @param color The color chosen by player.
+ */
 int update_board(char* board, char player, char color) {
   bool hasChanged = true;
   int nb_cell_acquired = 0;
@@ -110,17 +141,3 @@ int update_board(char* board, char player, char color) {
   return nb_cell_acquired;
 }
 
-unsigned int board_checksum(char* board) {
-    unsigned int sum = 0;
-    int i = 0, j = 0;
-    for(; i < BOARD_SIZE; i++) {
-        for(; j < BOARD_SIZE; j++) {
-            int shift = (i + j) % 4;
-            unsigned int pre_xor = ((sum >> shift) & 0xFF) << shift;
-            unsigned int xored = (((sum >> shift) & 0xFF) ^ 
-                (unsigned int)(get_cell(board, i, j))) << shift;
-            sum = (sum - pre_xor + xored);
-        }
-    }
-    return sum;
-}
