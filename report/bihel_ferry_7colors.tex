@@ -128,14 +128,17 @@ sont les cases les plus éloignées du plateau.
 
 Le monde va être mis à jour par lignes ou colonnes successives (selon le point 
 de départ) en partant du joueur qui a choisi la bonne couleur, comme sur la 
-figure qui suit.
+figure \ref{update_board}.
 \begin{figure}
 	\centering
 	
 	\includegraphics[width=.45\columnwidth]{update_board_arcsys_1} \\
+	\vspace{1cm}
 	\includegraphics[width=.45\columnwidth]{update_board_arcsys_2}
 	
-	\caption{\label{update_board} Deux cas d'actualisation du plateau.}
+	\caption{\label{update_board} Deux cas d'actualisation du plateau dans 
+le pire cas. En haut, le joueur bleu absorbe les cases vertes, colonne par 
+colonne. En bas, le joueur rouge absorbe les cases vertes, ligne par ligne.}
 \end{figure}
 
 Alors, il y aura $\boardsize-1$ passes à effectuer, où \boardsize{} est la 
