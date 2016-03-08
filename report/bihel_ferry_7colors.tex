@@ -111,10 +111,19 @@ tour, et surtout, c'est un cas tel qu'il existe une suite de cases adjacentes
 de même couleur entre la case de départ d'un joueur et celle de l'autre, qui 
 sont les cases les plus éloignées du plateau.
 
-Le monde va être mis à jour par diagonales successives en partant du joueur qui 
-a choisi la bonne couleur, comme sur la figure qui suit. (figure à dessiner)
+Le monde va être mis à jour par lignes ou colonnes successives (selon le point 
+de départ) en partant du joueur qui a choisi la bonne couleur, comme sur la 
+figure qui suit.
+%\begin{figure}
+%	\centering
+%	
+%	\includegraphics[width=.45\columnwidth]{update_board_arcsys_1}
+%	\includegraphics[width=.45\columnwidth]{update_board_arcsys_2}
+%	
+%	\caption{\label{hegemon_greedy} Deux cas d'actualisation du plateau.
+%\end{figure}
 
-Alors, il y aura $2(\boardsize-1)$ passes à effectuer, où \boardsize{} est la 
+Alors, il y aura $\boardsize-1$ passes à effectuer, où \boardsize{} est la 
 taille du plateau. 
 
     \paragraph{Question 2.3}
