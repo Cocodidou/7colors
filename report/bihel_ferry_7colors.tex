@@ -70,9 +70,17 @@
 
     \section{Introduction}
     Dans ce rapport nous présentons notre travail pour le TP noté d'ARCSYS sur 
-    le jeu \textit{7 colors}. En plus des questions obligatoires nous avons 
-    réalisé une IA hégémonique, une IA AlphaBeta et aussi un meilleur affichage 
-    pour le terminal.
+    le jeu \emph{7 colors}. 
+    
+    Il s'agissait de réaliser un jeu des 7 couleurs, où le but de chaque joueur 
+est d'obtenir plus de cases que son adversaire sur un plateau à cases colorées.
+Chaque joueur choisit, lorsque vient son tour, une couleur et absorbe les cases 
+adjacentes à sa zone qui sont de cette couleur. Il répète cette opération 
+jusqu'à ce qu'il ne puisse plus obtenir de nouvelles cases, et c'est alors à 
+l'adversaire de jouer.
+    
+    En plus des questions obligatoires, nous avons réalisé une IA hégémonique, 
+une IA AlphaBeta et aussi un meilleur affichage pour le terminal.
 
     \section{Partie 2}
     \paragraph{Question 2.1}
@@ -277,8 +285,22 @@ de défaite.
     d'échappement ANSI.
 
     \section{Conclusion}
-    Au final nous sommes satisfaits de nos IA hégémoniques et AlphaBeta qui se 
-    sont montrées meilleures que de simples IA gloutonnes. De plus l'alliance 
-    des deux s'est aussi montrée supérieure.
+    Nous avons programmé un jeu de 7 couleurs ainsi que de multiples stratégies 
+de jeu automatisées. 
+    
+    S'agissant des résultats obtenus, IA hégémoniques et AlphaBeta 
+se sont montrées meilleures que de simples IA gloutonnes. De plus, l'alliance 
+des deux s'est aussi montrée supérieure.
 
+Les résultats obtenus ne sont pas surprenants : lorsque la stratégie gloutonne 
+ne voit que le gain immédiat, MinMax et AlphaBeta ont une vision à plus long 
+terme : ils peuvent anticiper le score sur plusieurs étapes. La stratégie 
+hégémonique est meilleure que la gloutonne au sens où elle ne va pas essayer de 
+combler d'éventuels trous dans la zone du joueur, lorsque la stratégie 
+gloutonne va maximiser l'aire du joueur, en comblant éventuellement ces trous.
+
+La combinaison des deux stratégies gagnantes, à savoir la méthode hégémonique 
+utilisée en tant qu'heuristique de AlphaBeta, donne une meilleure stratégie.
+    
+    
 \end{document}
