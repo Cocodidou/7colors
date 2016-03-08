@@ -58,10 +58,10 @@ void ask_game_type(char* game_types, int* depths, char player_id)
 {
     printf("How will player %d act ?\n"
     "[1] Human input | [2] AlphaBeta AI | [3] Minimax AI | [4] Hegemonic AI\n"
-    "[5] AlphaBeta with hegemonic heuristic\n"
+    "[5] AlphaBeta with hegemonic heuristic | [6] Greedy | [7] Random \n"
     ">", player_id);
     char ans;
-    while((ans = getchar()) == '\n' || ans > '5' || ans < '1')
+    while((ans = getchar()) == '\n' || ans > '7' || ans < '1')
         printf(">");
     
     game_types[(int)player_id] = ans;
@@ -152,6 +152,18 @@ char game(char* board, int* depths, char* game_types)
                                                 depths[(int)curPlayer]);
         printf("\033[H\033[KAI %d (Alphabeta hegemonic) played %c\n", curPlayer, 
                 nextColor);
+        break;
+      case '6':
+        nextColor = biggest_move(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+        printf("\033[H\033[KAI %d (Greedy) played %c\n", curPlayer,
+                nextColor);
+        break;
+      case '7':
+        nextColor = rand_valid_play(board, (curPlayer)?SYMBOL_1:SYMBOL_0);
+        printf("\033[H\033[KAI %d (Greedy) played %c\n", curPlayer,
+                nextColor);
+        break;
+        
       default:
         break;
     }
