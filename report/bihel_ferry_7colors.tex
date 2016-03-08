@@ -158,10 +158,51 @@ après chaque tour à l'aide de la fonction \texttt{printf()}.
     couleur aléatoirement.
 
     \section{Partie 5}
-    % Corentin
+    \paragraph{Question 5.1}
+    Nous avons implémenté une stratégie de jeu dans laquelle le joueur cherche 
+à obtenir le plus de cases permises à chaque tour de jeu. Pour ce faire, on 
+travaille sur une copie du plateau générée à l'aide de \texttt{memcpy()}, sur 
+laquelle on simule le jeu d'une couleur à l'aide de la fonction 
+\texttt{update\_board()}. On choisit alors une des couleurs pour laquelle le 
+résultat renvoyé par \texttt{update\_board()} est maximal, autrement dit une de 
+celles qui a permis d'obtenir le plus de cases.
+
+Le plateau de jeu est rétabli entre chaque couleur essayée, en ré-effectuant 
+une copie du plateau original avec \texttt{memcpy()}.
+
+    \paragraph{Question 5.2}
+    Nous avons fait s'affronter le joueur articifiel aléatoire et le joueur 
+glouton, sur 100 parties consécutives. Il est apparu que le joueur glouton a 
+gagné avec 52.11\% des cases contre 25.78\% pour le joueur aléatoire.
+
+Nous avons choisi de réaliser un plateau équitable en le rendant symétrique. 
+Ainsi, tant que la stratégie d'un joueur ne dépend pas des cases de l'autre, 
+deux stratégies équivalentes choisies progressent exactement de la même 
+manière. Dans cette situation, le joueur jouant en premier a toutefois un 
+avantage : à stratégie équivalente, celui-ci aura un tour d'avance sur son 
+adversaire et emportera la partie.
+    \paragraph{Question 5.3}
+    Nous avons effectué un championnat de 100 parties, entre le joueur 
+artificiel glouton et le joueur aléatoire. L'intégralité des parties a été 
+remportée par le joueur glouton.
+
+\textbf{Dresser quelques stats de score !}
 
     \section{Partie 6}
     % Corentin pour 6.1
+    \paragraph{Question 6.1}
+    Nous avons implémenté un joueur artificiel hégémonique. Il joue selon la 
+stratégie de jeu suivante : il calcule l'aire atteignable par l'adversaire avec
+un algorithme de propagation de type \emph{flood-fill}.
+
+Cet algorithme de propagation est récursif : si une case est atteignable par un 
+joueur, c'est-à-dire occupée par lui ou non occupée, alors on regarde ce qu'il 
+en est de ses cases voisines (pour autant que celles-ci n'aient pas été 
+visitées). Les cases visitées sont mises à une valeur qui n'est pas une 
+couleur, ainsi l'algorithme travaille sur une copie du plateau de jeu.
+
+Il n'y a alors qu'à compter le nombre de cases atteignables par l'autre joueur 
+lors de l'exécution de l'algorithme de \emph{flood-fill}.
     % Simon pour 6.2
     \paragraph{6.2.} Nous sommes directement partis sur un algorithme MinMax
     car c'est un algorithme bien connu. Nous avons pris le score comme
