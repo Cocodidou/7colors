@@ -237,7 +237,7 @@ char biggest_move(char* board, char player)
     Nous avons fait s'affronter le joueur articifiel aléatoire et le joueur 
 glouton. Il est apparu que le joueur glouton a gagné avec 52.11\% des cases 
 contre 25.78\% pour le joueur aléatoire. Le joueur glouton augmente strictement 
-possible son aire à chaque tour, ce qui n'est pas le cas du joueur aléatoire. 
+son aire à chaque tour, ce qui n'est pas le cas du joueur aléatoire. 
 Ceci constitue une première explication au score obtenu.
 
 Nous avons choisi de réaliser un plateau équitable en le rendant symétrique. 
@@ -312,12 +312,21 @@ de défaite.
     % Simon
     \paragraph{Question 7.2} Nous avons utilisé AlphaBeta en utilisant comme
     heuristique la fonction qui calcule l'aire disponible pour le joueur
-    adverse. Sur 100 parties contre l'ancien AlphaBeta et avec pour tous les
-    deux un nombre des coups prévus de 6, il en gagna 71. À noter qu'il était
-    le joueur qui commençait. En inversant les rôles il gagna 56 parties.
-    En mettant l'IA hégémonique à la place d'AlphaBeta normal, il gagna 93
-    parties.
+    adverse. Nous l'avons nommé AlphaBeta hégémonique.
+    
+    Sur 100 parties contre l'ancien AlphaBeta et avec pour les
+    deux joueurs un nombre des coups prévus\footnote{profondeur d'exploration} 
+de 6, AlphaBeta hégémonique en gagna 71. 
 
+Notons que AlphaBeta hégémonique était le joueur qui commençait. En 
+inversant les rôles, AlphaBeta hégémonique gagna 56 parties. En mettant l'IA 
+hégémonique simple à la place d'AlphaBeta normal, AlphaBeta hégémonique gagna 93 
+parties.
+
+Ces résultats s'expliquent par le fait que la stratégie hégémonique est 
+meilleure que la stratégie gloutonne, et, pour AlphaBeta hégémonique contre 
+l'hégémonique simple, le fait que AlphaBeta a une vision à plus long terme 
+qu'une stratégie comme l'hégémonique.
 
     \section{Partie 8 : Pour procrastiner}
     % Simon
